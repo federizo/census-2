@@ -12,14 +12,16 @@ import { MdYard } from "react-icons/md";
 // import { AiFillProduct } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "@/app/enumerator/form/ui/modal";
-import api from "@/lib/api/api";
+
 import { MdOutlinePets } from "react-icons/md";
+import ValidationModal from "./validationModal";
 
 const Form = () => {
   const [formData, setFormData] = useState({
     houseprofileid: "",
     nofammembers: 0,
     housenumber: "",
+    housecontact: "",
     bcno: "",
     street: "",
     subd: "",
@@ -48,9 +50,13 @@ const Form = () => {
     pet: { dog: false, cat: false, other: "", catsnumber: 0, dogsnumber: 0 },
   });
 
+
   const [specificMemberFormData, setSpecificFormData] = useState<any>();
   const [specificMemberNumber, setSpecificMemberNumber] = useState<number>();
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const [openvalidationmodal, setOpenvalidationmodal] = useState<boolean>(false)
 
   useLayoutEffect(() => {
     const storedData: any = sessionStorage.getItem("formData");
@@ -86,23 +92,26 @@ const Form = () => {
   };
 
   const handleSubmitForm = async (e: React.FormEvent) => {
-    e.preventDefault();
 
-    if (formData.members.length === 0) {
-      return alert("It seems there is no family member?");
-    } else {
-      let insertStatus: boolean | undefined = await api(formData);
+    try {
+      e.preventDefault();
 
-      if (insertStatus) {
-        // Corrected from "insterStatus" to "insertStatus"
-        // sessionStorage.clear();
-        // formClearInputs();
-        // return location.reload();
-      } else {
-        alert("Something went wrong. Try to resubmit again.");
+      if (formData.members.length === 0) {
+        return alert("It seems there is no family member?");
       }
+
+      setFormData((prev: any) => ({
+        ...prev,
+        nofammembers: formData.members.length, // Directly set based on the boolean value
+      }))
+      setOpenvalidationmodal(true)
+
+    } catch (error) {
+      console.error("An error occurred during form submission:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
   };
+
 
   const handleOpenModal = (member: any, index: number) => {
     setSpecificFormData(member);
@@ -111,10 +120,12 @@ const Form = () => {
   };
 
   const formClearInputs = () => {
+    sessionStorage.clear(); // Clear session storage if necessary
     setFormData({
       houseprofileid: formData.houseprofileid,
-      nofammembers: 1,
+      nofammembers: 0,
       housenumber: "",
+      housecontact: "",
       bcno: "",
       street: "",
       subd: "",
@@ -161,7 +172,7 @@ const Form = () => {
               CLEAR FORM
             </button>
           </div>
-          <form onSubmit={handleSubmitForm} className="w-full ">
+          <form className="w-full ">
             <div className="w-full flex items-center justify-between">
               <div className="flex items-center gap-2  ">
                 <label className="font-semibold tracking-wider">DATE:</label>
@@ -179,15 +190,22 @@ const Form = () => {
                 <label className="font-semibold tracking-wider ">
                   NO. OF FAMILY MEMBERS:
                 </label>
+                <label>
+                  {formData.members.length}
+                </label>
+              </div>
+              <div className="flex flex-col gap-2  ">
+                <label className="font-semibold tracking-wider ">
+                  HOUSE TEL/CELL NO.
+                </label>
                 <input
                   required
                   type="number"
                   inputMode="numeric"
-                  minLength={1}
-                  name="nofammembers"
-                  value={formData.nofammembers}
+                  name="housecontact"
+                  value={formData.housecontact}
                   onChange={handleChange}
-                  className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[50px] rounded"
+                  className="text-white border-[0.5px] bg-transparent p-2 h-fit w-full rounded"
                 />
               </div>
 
@@ -561,11 +579,17 @@ const Form = () => {
                 </div>
               </div>
 
-              <button className="w-full bg-slate-200 text-black py-0.5 text-[1.1rem] font-semibold tracking-wider rounded hover:bg-blue-800 hover:text-white duration-300">
+              {!loading ? <button onClick={handleSubmitForm} className="w-full bg-slate-200 text-black py-0.5 text-[1.1rem] font-semibold tracking-wider rounded hover:bg-blue-800 hover:text-white duration-300">
                 SUBMIT
-              </button>
+              </button> :
+                <a className="w-full bg-slate-500 text-white py-0.5 text-[1.1rem] font-semibold tracking-wider rounded  hover:text-white duration-300 flex justify-center">
+                  SUBMITTING...
+                </a>
+              }
+
             </div>
           </form>
+          <ValidationModal openvalidationmodal={openvalidationmodal} setOpenvalidationmodal={setOpenvalidationmodal} setLoading={setLoading} formClearInputs={formClearInputs} formData={formData} />
         </>
       ) : (
         "Loading..."

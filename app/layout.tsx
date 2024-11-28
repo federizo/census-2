@@ -13,17 +13,17 @@ export const metadata: Metadata = {
 	metadataBase: new URL("https://daily-todo-task.vercel.app/"),
 
 	title: {
-		template: "%s | Daily Todo",
-		default: "Daily Todo",
+		template: "%s | PB Census",
+		default: "PB Census",
 	},
 	authors: {
-		name: "chensokheng",
+		name: "JAZCode",
 	},
 	description:
 		"Build dashboard with role managemanet using next.js and supabase.",
 	openGraph: {
-		title: "Daily Todo",
-		description: "Build dashboard with next.js and supabase ",
+		title: "PB Census",
+		description: "A census for Pulong Buhangin Sta. Maria",
 		url: "https://daily-todo-task.vercel.app/",
 		siteName: "Daily Todo",
 		images: "/og.png",

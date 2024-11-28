@@ -34,7 +34,7 @@ async function superAdminLogin(data: any) {
   const supabase = await createSupbaseServerClient();
   const result = await supabase.auth.signInWithPassword(data);
   if (result.error) {
-    const supabase = await createSupabaseAdmin();
+  
     await createMember({
       agentId: 8509163181,
       email: data.email,

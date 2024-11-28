@@ -33,6 +33,7 @@ const MemberForm = ({ setFormData, formData }: any) => {
     fname: "",
     lname: "",
     minitial: "",
+    suffix: "",
     relationship: "",
     dob: "",
     age: "",
@@ -49,6 +50,9 @@ const MemberForm = ({ setFormData, formData }: any) => {
     fourps: false,
     pwd: false,
     lactating: { status: false, months: "" },
+    immunization: "",
+    weight: "",
+    height: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,6 +99,7 @@ const MemberForm = ({ setFormData, formData }: any) => {
         fname: "",
         lname: "",
         minitial: "",
+        suffix: "",
         relationship: "",
         dob: "",
         age: "",
@@ -111,13 +116,16 @@ const MemberForm = ({ setFormData, formData }: any) => {
         fourps: false,
         pwd: false,
         lactating: { status: false, months: "" },
+        immunization: "",
+        weight: "",
+        height: "",
       });
     }
   };
 
   return (
     <div
-      className={`${minimizeForm ? "h-[150vh] xl:h-[160vh]" : "h-[60px]"} duration-300 flex flex-col gap-2 overflow-hidden w-5xl px-3 py-2 rounded border-[1px]`}
+      className={`${minimizeForm ? " max-h-fit" : "h-[60px]"} duration-300 flex flex-col gap-2 overflow-hidden w-5xl px-3 py-2 rounded border-[1px]`}
     >
       <div className="flex items-center justify-between">
         <label className="px-2 rounded bg-slate-200 text-black w-fit ]"></label>
@@ -176,6 +184,18 @@ const MemberForm = ({ setFormData, formData }: any) => {
               type="text"
               name="minitial"
               value={memberForm.minitial}
+              onChange={handleChange}
+              className="text-white border-[0.5px] bg-transparent p-2 rounded w-full max-w-2xl"
+            />
+          </div>
+          <div className="flex flex-col gap-0.5  w-full">
+            <label className="font-light  tracking-wider italic text-[1rem]">
+              SUFFIX
+            </label>
+            <input
+              type="text"
+              name="suffix"
+              value={memberForm.suffix}
               onChange={handleChange}
               className="text-white border-[0.5px] bg-transparent p-2 rounded w-full max-w-2xl"
             />
@@ -564,6 +584,43 @@ const MemberForm = ({ setFormData, formData }: any) => {
           </div>
         </div>
       </>
+
+      <div className="flex flex-col gap-0.5  w-full">
+        <label className="font-light  tracking-wider italic text-[1rem]">
+          IMMUNIZATION
+        </label>
+        <input
+          type="text"
+          name="immunization"
+          value={memberForm.immunization}
+          onChange={handleChange}
+          className="text-white border-[0.5px] bg-transparent p-2 rounded w-full max-w-2xl"
+        />
+      </div>
+      <div className="flex flex-col gap-0.5  w-full">
+        <label className="font-light  tracking-wider italic text-[1rem]">
+          WEIGHT(KG)
+        </label>
+        <input
+          type="text"
+          name="weight"
+          value={memberForm.weight}
+          onChange={handleChange}
+          className="text-white border-[0.5px] bg-transparent p-2 rounded w-full max-w-2xl"
+        />
+      </div>
+      <div className="flex flex-col gap-0.5  w-full">
+        <label className="font-light  tracking-wider italic text-[1rem]">
+          HEIGHT(FT)
+        </label>
+        <input
+          type="text"
+          name="height"
+          value={memberForm.height}
+          onChange={handleChange}
+          className="text-white border-[0.5px] bg-transparent p-2 rounded w-full max-w-2xl"
+        />
+      </div>
       <div className="flex w-full flex-col items-center justify-center">
         <div className="h-[0.5px] bg-gray-200 w-[70%] mb-2 mt-2" />
         <button

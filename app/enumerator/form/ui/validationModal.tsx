@@ -16,6 +16,9 @@ const ValidationModal: React.FC<ValidationModalProps> = ({ openvalidationmodal, 
     if (!openvalidationmodal) return null;
 
     const handleValidation = async () => {
+
+        console.log(formData);
+
         try {
             const { isValid, message } = await agentValidation(agentid);
             setValid(isValid)
@@ -27,7 +30,7 @@ const ValidationModal: React.FC<ValidationModalProps> = ({ openvalidationmodal, 
                     setLoading(true)
                     // Uncomment and use these functions as per your application's logic
                     sessionStorage.clear(); // Clear session storage if necessary
-                    formClearInputs(); // Clear the form fields if necessary
+                    // formClearInputs(); // Clear the form fields if necessary
                     setLoading(false)
                     setOpenvalidationmodal(false)
                     return location.reload()
@@ -35,6 +38,7 @@ const ValidationModal: React.FC<ValidationModalProps> = ({ openvalidationmodal, 
                     alert(message);
                     setLoading(false)
                     setOpenvalidationmodal(false)
+                    location.reload()
                 }
 
 

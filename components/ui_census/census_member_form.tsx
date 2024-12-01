@@ -26,32 +26,10 @@ const AgeComputation = (dob: string): string => {
     return age.toString();
 };
 
+const CensusMemberForm = ({ formData, setFormData, memberForm, setMemberForm, minimizeForm,
+    setMinimizeForm
+}: { minimizeForm: boolean, setMinimizeForm: React.Dispatch<React.SetStateAction<boolean>>, memberForm: any, setMemberForm: React.Dispatch<React.SetStateAction<any>>, formData: any, setFormData: React.Dispatch<React.SetStateAction<any>> }) => {
 
-const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormData: React.Dispatch<React.SetStateAction<any>> }) => {
-
-    const [minimizeForm, setMinimizeForm] = useState<boolean>(false);
-    const [memberForm, setMemberForm] = useState({
-        MemberId: "",
-        FirstName: "",
-        LastName: "",
-        MiddleName: "",
-        Suffix: "",
-        FamilyRelationship: "",
-        Birthday: "",
-        Age: 0,
-        Gender: "",
-        CivilStatus: "",
-        Occupation: { value: "", other: "" },
-        Eduction: { elem: false, hs: false, college: false, other: false },
-        Religion: { value: "", other: "" },
-        Sector: { src: false, sp: false, fourps: false, },
-        Lactating: false,
-        LactatingMonths: 0,
-        Immunization: "",
-        Disability: "",
-        Weight: "",
-        Height: "",
-    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value, name } = e.target;
@@ -73,50 +51,6 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
         setMemberForm((prev: any) => ({ ...prev, MemberId: uuidv4() }));
     }, [formData]);
 
-    const saveMemberFormData = () => {
-        const { FirstName, LastName, FamilyRelationship, Birthday, Gender, CivilStatus } =
-            memberForm;
-        const check =
-            FirstName.trim() !== "" &&
-            LastName.trim() !== "" &&
-            FamilyRelationship.trim() !== "" &&
-            Birthday.trim() !== "" &&
-            Gender.trim() !== "" &&
-            CivilStatus.trim() !== "";
-
-        if (!check) {
-            alert("Fill  data");
-        } else {
-            setFormData((prevState: any) => ({
-                ...prevState,
-                FamMember: [...prevState.FamMember, memberForm], // Add the new member to the members array
-            }));
-            setMemberForm({
-                MemberId: "",
-                FirstName: "",
-                LastName: "",
-                MiddleName: "",
-                Suffix: "",
-                FamilyRelationship: "",
-                Birthday: "",
-                Age: 0,
-                Gender: "",
-                CivilStatus: "",
-                Occupation: { value: "", other: "" },
-                Eduction: { elem: false, hs: false, college: false, other: false },
-                Religion: { value: "", other: "" },
-                Sector: { src: false, sp: false, fourps: false, },
-                Lactating: false,
-                LactatingMonths: 0,
-                Immunization: "",
-                Disability: "",
-                Weight: "",
-                Height: "",
-            });
-        }
-    };
-
-
 
     return <div
         className={`${minimizeForm ? " max-h-fit" : "h-[60px]"} duration-300 flex flex-col gap-2 overflow-hidden w-5xl px-3 py-2 rounded border-[1px]`}
@@ -128,7 +62,7 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
         <div className="flex w-full justify-between items-center">
             <label className="font-semibold  flex items-center gap-2">
                 <IoPerson />
-                PERSONAL INFORMATION{" "}
+                MEMBER {memberForm.FirstName}
             </label>
 
             <a
@@ -316,8 +250,8 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <div className="flex flex-col w-full gap-3">
                         <label className="font-semibold tracking-wider">OCCUPATION</label>
                         <Select
-                            name="occupation"
-                            value={memberForm.Occupation.value}
+                            name="Occupation"
+                            value={memberForm.Occupation?.value}
                             onValueChange={(value) =>
                                 setMemberForm((prev: any) => ({
                                     ...prev,
@@ -329,13 +263,13 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                                 <SelectValue placeholder="Choose Occupation" />
                             </SelectTrigger>
                             <SelectContent className=" ">
-                                <SelectItem value="GE">{"(GE)"} General Election</SelectItem>
-                                <SelectItem value="PE">{"(PE)"} Pop Eyes</SelectItem>
+                                <SelectItem value="GE">{"(GE)"} Government Employee</SelectItem>
+                                <SelectItem value="PE">{"(PE)"} Private Employee</SelectItem>
                                 <SelectItem value="OFW">{"(OFW)"} On For Way</SelectItem>
                                 <SelectItem value="OTHER">OTHER</SelectItem>
                             </SelectContent>
                         </Select>
-                        {memberForm.Occupation.value === "OTHER" && (
+                        {memberForm.Occupation?.value === "OTHER" && (
                             <input
                                 type="text"
                                 name="other"
@@ -370,11 +304,11 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <Checkbox
                         className="h-6 w-6"
                         name="elem"
-                        checked={memberForm.Eduction.elem}
+                        checked={memberForm.Education?.elem}
                         onCheckedChange={(value: boolean) =>
                             setMemberForm((prev: any) => ({
                                 ...prev,
-                                Eduction: { ...prev.Eduction, elem: value }, // Correctly update only the other field
+                                Education: { ...prev.Education, elem: value }, // Correctly update only the other field
                             }))
                         }
                     />
@@ -387,11 +321,11 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <Checkbox
                         className="h-6 w-6"
                         name="hs"
-                        checked={memberForm.Eduction.hs}
+                        checked={memberForm.Education?.hs}
                         onCheckedChange={(value: boolean) =>
                             setMemberForm((prev: any) => ({
                                 ...prev,
-                                Eduction: { ...prev.Eduction, hs: value }, // Correctly update only the other field
+                                Education: { ...prev.Education, hs: value }, // Correctly update only the other field
                             }))
                         }
                     />
@@ -403,11 +337,11 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <Checkbox
                         className="h-6 w-6"
                         name="collegegrad"
-                        checked={memberForm.Eduction.college}
+                        checked={memberForm.Education?.college}
                         onCheckedChange={(value: boolean) =>
                             setMemberForm((prev: any) => ({
                                 ...prev,
-                                Eduction: { ...prev.Eduction, college: value }, // Correctly update only the other field
+                                Education: { ...prev.Education, college: value }, // Correctly update only the other field
                             }))
                         }
                     />
@@ -419,11 +353,11 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <Checkbox
                         className="h-6 w-6"
                         name="others_osc_osy"
-                        checked={memberForm.Eduction.other}
+                        checked={memberForm.Education?.other}
                         onCheckedChange={(value: boolean) =>
                             setMemberForm((prev: any) => ({
                                 ...prev,
-                                Eduction: { ...prev.Eduction, other: value }, // Correctly update only the other field
+                                Education: { ...prev.Education, other: value }, // Correctly update only the other field
                             }))
                         }
                     />
@@ -437,7 +371,7 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
             </label>
             <Select
                 name="value"
-                value={memberForm.Religion.value}
+                value={memberForm.Religion?.value}
                 onValueChange={(value) =>
                     setMemberForm((prev: any) => ({
                         ...prev,
@@ -455,11 +389,12 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <SelectItem value="OTHER">OTHER</SelectItem>
                 </SelectContent>
             </Select>
-            {memberForm?.Religion.value === "OTHER" && (
+            {memberForm?.Religion?.value === "OTHER" && (
                 <input
                     type="text"
                     name="other"
                     placeholder="Enter custom religion"
+                    value={memberForm.Religion.other}
                     onChange={(e) =>
                         setMemberForm((prev: any) => ({
                             ...prev,
@@ -482,7 +417,7 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <Checkbox
                         className="h-6 w-6"
                         name="src"
-                        checked={memberForm.Sector.src}
+                        checked={memberForm.Sector?.src}
                         onCheckedChange={(value: boolean) =>
                             setMemberForm((prev: any) => ({
                                 ...prev,
@@ -496,7 +431,7 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <Checkbox
                         className="h-6 w-6"
                         name="sp"
-                        checked={memberForm.Sector.sp}
+                        checked={memberForm.Sector?.sp}
                         onCheckedChange={(value: boolean) =>
                             setMemberForm((prev: any) => ({
                                 ...prev,
@@ -510,7 +445,7 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                     <Checkbox
                         className="h-6 w-6"
                         name="fourps"
-                        checked={memberForm.Sector.fourps}
+                        checked={memberForm.Sector?.fourps}
                         onCheckedChange={(value: boolean) =>
                             setMemberForm((prev: any) => ({
                                 ...prev,
@@ -572,13 +507,79 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
                 <label className="font-light  tracking-wider italic text-[1rem]">
                     IMMUNIZATION
                 </label>
-                <input
-                    type="text"
-                    name="Immunization"
-                    value={memberForm.Immunization}
-                    onChange={handleChange}
-                    className="text-white border-[0.5px] bg-transparent p-2 rounded w-full max-w-2xl"
-                />
+                <div className="gap-4 flex flex-col mt-1">
+                    <div className="flex items-center gap-2">
+                        <label className="tracking-widest">BCG</label>
+                        <Checkbox
+                            className="h-6 w-6"
+                            name="lactatingstatus"
+                            checked={memberForm.Immunization.BCG}
+                            onCheckedChange={(value: boolean) =>
+                                setMemberForm((prev: any) => ({
+                                    ...prev,
+                                    Immunization: { ...prev.Immunization, BCG: value }
+                                }))
+                            }
+                        />
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <label className="tracking-widest">DPT</label>
+                        <input
+                            type="number"
+                            name="DPT"
+                            value={memberForm.Immunization.DPT}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (value.length <= 1 && /^[0-9]?$/.test(value)) {
+                                    setMemberForm((prev: any) => ({
+                                        ...prev,
+                                        Immunization: { ...prev.Immunization, DPT: value },
+                                    }));
+                                }
+                            }}
+                            className="text-white border-[0.5px] bg-transparent p-2 rounded w-[100px] max-w-2xl"
+                        />
+
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <label className="tracking-widest">POLIO</label>
+                        <input
+                            type="number"
+                            name="Polio"
+                            maxLength={1}
+                            value={memberForm.Immunization.Polio}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (value.length <= 1 && /^[0-9]?$/.test(value)) {
+                                    setMemberForm((prev: any) => ({
+                                        ...prev,
+                                        Immunization: { ...prev.Immunization, Polio: value },
+                                    }));
+                                }
+                            }}
+                            className="text-white border-[0.5px] bg-transparent p-2 rounded w-[100px] max-w-2xl"
+                        />
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <label className="tracking-widest">MEASLES</label>
+                        <input
+                            type="number"
+                            name="Measles"
+                            maxLength={1}
+                            value={memberForm.Immunization.Measles}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (value.length <= 1 && /^[0-9]?$/.test(value)) {
+                                    setMemberForm((prev: any) => ({
+                                        ...prev,
+                                        Immunization: { ...prev.Immunization, Measles: value },
+                                    }));
+                                }
+                            }}
+                            className="text-white border-[0.5px] bg-transparent p-2 rounded w-[100px] max-w-2xl"
+                        />
+                    </div>
+                </div>
             </div>
             <div className="flex flex-col gap-0.5  w-full">
                 <label className="font-light  tracking-wider italic text-[1rem]">
@@ -606,16 +607,7 @@ const CensusMemberForm = ({ formData, setFormData }: { formData: any, setFormDat
             </div>
         </>}
 
-        <div className="flex w-full flex-col items-center justify-center">
-            <div className="h-[0.5px] bg-gray-200 w-[70%] mb-2 mt-2" />
-            <button
-                onClick={() => saveMemberFormData()}
-                type="button"
-                className="text-center h-[30px] bg-slate-100 text-black px-2 font-semibold rounded hover:bg-green-800 duration-300 hover:text-white"
-            >
-                ADD MEMBER
-            </button>
-        </div>
+
     </div>
 };
 

@@ -34,26 +34,37 @@ export const getAllRelatedInformation = async (item: { HouseProfileId?: string }
 
         // Fetch data with relationships
         const { data, error } = await supabase
-            .from("HouseProfile") // Main table
+            .from("HouseProfile")
             .select(`
                 *,
                 Location(*), 
                 Pet(*),
-                FamMember(*)
+                FamMember(*),
+                Apartment(*)
             `)
-            .eq("HouseProfileId", houseprofileid); // Correct column name
+            .eq("HouseProfileId", houseprofileid);
 
-        // Handle errors from Supabase
+        // Handle Supabase query errors
         if (error) {
-            console.error("Error fetching data:", error);
+            console.error("Error fetching data from HouseProfile:", error.message);
             return [];
         }
 
-        console.log(data); // You can log the data for debugging purposes
+        if (!data || data.length === 0) {
+            console.warn("No data found for HouseProfileId:", houseprofileid);
+        }
 
-        return data || [];
+        // Process the data to pick only the first item from related fields
+        const processedData = data.map((profile) => ({
+            ...profile,
+            Pet: profile.Pet?.[0] || null, // Select the first Pet or null
+            Apartment: profile.Apartment?.[0] || null, // Select the first Apartment or null
+            Location: profile.Location?.[0] || null, // Select the first Location or null
+        }));
+
+        return processedData;
     } catch (err) {
-        console.error("Error occurred during fetch:", err);
+        console.error("Unexpected error during fetch:", err);
         return [];
     }
 };

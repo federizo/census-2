@@ -24,6 +24,8 @@ export const updateChecker = (formData: any, prevformData: any) => {
     if (responsePet) return updatePet(formData);
 
     console.log("No updates needed.");
+
+    return true
 };
 
 const updateHouseProfile = async (data: any) => {
@@ -38,10 +40,16 @@ const updateHouseProfile = async (data: any) => {
             AgentId: data.current,
             DoYouHave: data.DoYouHave,
             HouseHoldUses: data.HouseHoldUses,
+            Devices: data.Devices,
+            Vehicle: data.Vehicle,
+            Appliances: data.Appliances,
+            Note: data.Note,
+            FamClass: data.FamClass
         })
         .eq('HouseProfileId', data.HouseProfileId)
         .select()
-    if (error) console.error(error.message)
+    if (error) return alert("updateHouseProfile: " + error.message)
+    return true
 };
 
 const updateApartment = async (data: any) => {
@@ -59,7 +67,8 @@ const updateApartment = async (data: any) => {
         })
         .eq('HouseProfileId', data.HouseProfileId)
         .select()
-    if (error) console.error(error.message)
+    if (error) return alert("updateApartment: " + error.message)
+    return true
 };
 
 const updateFamMember = async (data: any) => {
@@ -85,7 +94,8 @@ const updateLocation = async (data: any) => {
         })
         .eq('HouseProfileId', data.HouseProfileId)
         .select()
-    if (error) console.error(error.message)
+    if (error) return alert("updateLocation: " + error.message)
+    return true
 
 };
 
@@ -101,6 +111,7 @@ const updatePet = async (data: any) => {
         })
         .eq('HouseProfileId', data.HouseProfileId)
         .select()
-    if (error) console.error(error.message)
+    if (error) return alert("updatePet: " + error.message)
+    return true
 
 };

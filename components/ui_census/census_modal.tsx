@@ -3,8 +3,8 @@ import { IoClose } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { getAllRelatedInformation } from "@/lib/api/apitGET";
 import CensusForm from "./census_form";
-import { updateChecker } from "@/lib/api/apiUPDATE";
 import MemberModal from "./member_modal";
+import { updateChecker } from "@/lib/api/apiUPDATE";
 
 const CensusModal = ({
     openModal,

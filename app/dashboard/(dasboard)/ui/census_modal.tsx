@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { getAllRelatedInformation } from "@/lib/api/apitGET";
-import { updateChecker } from "@/lib/api/apiUPDATE"
+import { updateChecker } from "@/lib/api/apiUPDATE";
 import CensusForm from "../../../../components/ui_census/census_form";
 import MemberModal from "../../../../components/ui_census/member_modal";
 

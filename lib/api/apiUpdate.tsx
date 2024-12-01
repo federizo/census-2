@@ -9,23 +9,22 @@ import {
 } from "@/components/filter/checker";
 import { createSupbaseServerClient } from "../supabase";
 
-export const updateChecker = (formData: any, prevformData: any) => {
+export const updateChecker = async (formData: any, prevformData: any) => {
     const responseHouseProfile = checkHouseProfile(formData, prevformData);
-    const responseLocation = checkLocation(formData, prevformData); // Fixed typo
+    const responseLocation = checkLocation(formData, prevformData);
     const responseFamMember = checkFamMember(formData, prevformData);
     const responseApartment = checkApartment(formData, prevformData);
     const responsePet = checkPet(formData, prevformData);
 
-
-    if (responseHouseProfile) return updateHouseProfile(formData);
-    if (responseLocation) return updateLocation(formData);
-    if (responseFamMember) return updateFamMember(formData);
-    if (responseApartment) return updateApartment(formData);
-    if (responsePet) return updatePet(formData);
+    if (responseHouseProfile) await updateHouseProfile(formData);
+    if (responseLocation) await updateLocation(formData);
+    if (responseFamMember) await updateFamMember(formData);
+    if (responseApartment) await updateApartment(formData);
+    if (responsePet) await updatePet(formData);
 
     console.log("No updates needed.");
 
-    return true
+    return true;
 };
 
 const updateHouseProfile = async (data: any) => {

@@ -108,13 +108,13 @@ const CensusModal = ({
         setLoading(false);
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         if (deepCompare(originalFormData.current, formData)) {
             alert("No changes detected.");
             return;
         }
 
-        if (updateChecker(formData, originalFormData.current))
+        if (await updateChecker(formData, originalFormData.current))
             alert("Update successful.");
         setOpenModal(false)
         originalFormData.current = { ...formData }; // Update reference with latest data

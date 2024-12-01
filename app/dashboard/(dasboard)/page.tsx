@@ -57,15 +57,13 @@ export default function Dashboard() {
                 </h1>
               ))}
             </div>
-            {censusData.length !== 0 ?
-              <>
-                {censusData.length === 0 ? <>NO DATA</> : <>
-                  {censusData?.map((item: any, index: number) => (
-                    <CensusCard key={index} item={item} />
-                  ))}
-                </>}
-              </>
-              : <div>Loading...</div>}
+            <>
+              {censusData.length === 0 ? <div className="w-full flex justify-center font-semibold tracking-widest">NO DATA</div> : <>
+                {censusData?.map((item: any, index: number) => (
+                  <CensusCard key={index} item={item} />
+                ))}
+              </>}
+            </>
           </div>
         </div>
       </div>

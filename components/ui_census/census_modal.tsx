@@ -172,7 +172,7 @@ const CensusModal = ({
                         </button>
                     </div>
                     <div className="w-full flex flex-col h-full overflow-y-auto overflow-x-hidden">
-                        {loading ? "Loading..." :
+                        {loading ? <div className="w-full h-full flex items-center justify-center">Loadin...</div> :
                             <CensusForm
                                 formData={formData}
                                 setFormData={setFormData}
@@ -183,7 +183,7 @@ const CensusModal = ({
                                 setSelectedUser={setSelectedUser}
                             />}
 
-                        <pre>{JSON.stringify(formData, null, 2)}</pre>
+                        {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
                         <MemberModal
                             selectedUser={selectedUser}
                             setSelectedUser={setSelectedUser}

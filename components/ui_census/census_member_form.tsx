@@ -59,7 +59,7 @@ const CensusMemberForm = ({ formData, setFormData, memberForm, setMemberForm, mi
             <label className="px-2 rounded bg-slate-200 text-black w-fit ]"></label>
             <label className="font-thin tracking-wider  bg-slate-500 bg-opacity-50 text-slate-400 w-fit h-fit px-2 rounded"></label>
         </div>
-        <div className="flex w-full justify-between items-center">
+        <div onClick={() => setMinimizeForm(!minimizeForm)} className="flex w-full justify-between items-center">
             <label className="font-semibold  flex items-center gap-2">
                 <IoPerson />
                 MEMBER {memberForm.FirstName}

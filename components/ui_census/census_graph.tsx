@@ -15,8 +15,22 @@ const chartData = [
     { month: "March", female: 237, male: 120 },
     { month: "April", female: 73, male: 190 },
     { month: "May", female: 209, male: 130 },
-    { month: "June", female: 214, male: 140 },
+    { month: "June", female: 214, male: 10 },
+    { month: "July", female: 4, male: 140 },
+    { month: "August", female: 24, male: 40 },
+    { month: "September", female: 21, male: 130 },
+    { month: "October", female: 21, male: 140 },
+    { month: "November", female: 14, male: 10 },
+    { month: "December", female: 24, male: 3 },
 ]
+
+const Population = [
+    { browser: "KM 37", visitors: 275, fill: "#4285F4" }, // Blue
+    { browser: "KM 38", visitors: 200, fill: "#FFAC45" }, // Orange
+    { browser: "KM 39", visitors: 287, fill: "#FF7139" }, // Red
+    { browser: "KM 40", visitors: 173, fill: "#0078D7" },   // Dark Blue
+    { browser: "other", visitors: 190, fill: "#AAAAAA" },  // Grey
+];
 
 const chartConfig = {
     female: {
@@ -28,16 +42,6 @@ const chartConfig = {
         color: "#60a5fa",
     },
 } satisfies ChartConfig
-
-
-const Population = [
-    { browser: "km37", visitors: 275, fill: "#4285F4" }, // Blue
-    { browser: "km38", visitors: 200, fill: "#FFAC45" }, // Orange
-    { browser: "km39", visitors: 287, fill: "#FF7139" }, // Red
-    { browser: "km40", visitors: 173, fill: "#0078D7" },   // Dark Blue
-    { browser: "other", visitors: 190, fill: "#AAAAAA" },  // Grey
-];
-
 
 const pouplationCofig = {
     visitors: {

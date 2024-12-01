@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { agentValidation } from "../../agentValidation";
-import api from "@/lib/api/api";
+import { IoClose } from "react-icons/io5";
+import api from "@/lib/api/apiINSERT";
 interface ValidationModalProps {
     openvalidationmodal: boolean;
     setOpenvalidationmodal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,10 +17,8 @@ const ValidationModal: React.FC<ValidationModalProps> = ({ openvalidationmodal, 
     if (!openvalidationmodal) return null;
 
     const handleValidation = async () => {
-
-        console.log(formData);
-
         try {
+
             const { isValid, message } = await agentValidation(agentid);
             setValid(isValid)
             if (isValid) {
@@ -64,7 +63,7 @@ const ValidationModal: React.FC<ValidationModalProps> = ({ openvalidationmodal, 
         >
             <div className="bg-black w-[300px] p-4 rounded shadow-lg shadow-gray-900 flex flex-col gap-2">
                 {!valid ? <>
-                    <div className="w-full flex justify-end"><label onClick={() => setOpenvalidationmodal(false)}>X</label></div>
+                    <div className="w-full flex justify-end"><label onClick={() => setOpenvalidationmodal(false)} className="text-2xl hover:text-red-500 cursor-pointer"><IoClose /></label></div>
                     <h2 className="text-2xl font-bold">Validation</h2>
                     <label>Enter your agent id</label>
                     <input
@@ -77,7 +76,7 @@ const ValidationModal: React.FC<ValidationModalProps> = ({ openvalidationmodal, 
                         className="text-white border-[0.5px] bg-transparent p-2 h-fit w-full rounded"
                     />
                     <button
-                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+                        className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-800 duration-200 text-white rounded"
                         onClick={() => handleValidation()}
                     >
                         Validate
@@ -87,8 +86,6 @@ const ValidationModal: React.FC<ValidationModalProps> = ({ openvalidationmodal, 
                         Submitting application please wait...
                     </div>
                 </>}
-
-
             </div>
         </div>
     );

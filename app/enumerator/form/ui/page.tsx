@@ -18,10 +18,13 @@ const Form = () => {
     AgentId: "",
     DoYouHave: {},
     HouseHoldUses: {},
-    Location: [],
-    Pet: [],
+    Devices: {},
+    Vehicles: {},
+    Appliances: {},
+    Location: { Kilometer: "" },
+    Pet: {},
     FamMember: [],
-    Apartment: [],
+    Apartment: {},
     Note: "",
   });
 
@@ -50,17 +53,15 @@ const Form = () => {
 
   const [selectedUser, setSelectedUser] = useState<any>([])
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [edit, setEdit] = useState<boolean>(false); //always turn this false if using the census_form
-  const [openModal, setOpenModal] = useState<boolean>(false)
   const [openvalidationmodal, setOpenvalidationmodal] = useState<boolean>(false)
-  const [hasChanges, setHasChanges] = useState(false);
 
-  const originalFormData = useRef(formData);
 
-  const deepCompare = (obj1: any, obj2: any): boolean => {
-    return JSON.stringify(obj1) === JSON.stringify(obj2);
-  };
+  // const originalFormData = useRef(formData);
+
+  // const deepCompare = (obj1: any, obj2: any): boolean => {
+  //   return JSON.stringify(obj1) === JSON.stringify(obj2);
+  // };
 
   useLayoutEffect(() => {
     const storedData: any = sessionStorage.getItem("formData");
@@ -87,29 +88,6 @@ const Form = () => {
   }, [formData]);
 
 
-  useEffect(() => {
-    setHasChanges(!deepCompare(originalFormData.current, formData));
-  }, [formData]);
-
-  const handleSubmitForm = async (e: React.FormEvent) => {
-    try {
-      e.preventDefault();
-
-      if (formData.FamMember.length === 0) {
-        return alert("It seems there is no family member?");
-      }
-
-      setFormData((prev: any) => ({
-        ...prev,
-        nofammembers: formData.FamMember.length, // Directly set based on the boolean value
-      }))
-      setOpenvalidationmodal(true)
-
-    } catch (error) {
-      console.error("An error occurred during form submission:", error);
-      alert("An unexpected error occurred. Please try again.");
-    }
-  };
 
   const formClearInputs = () => {
     sessionStorage.clear(); // Clear session storage if necessary
@@ -123,10 +101,13 @@ const Form = () => {
       AgentId: "",
       DoYouHave: {},
       HouseHoldUses: {},
-      Location: [],
-      Pet: [],
+      Devices: {},
+      Vehicles: {},
+      Appliances: {},
+      Location: { Kilometer: "" },
+      Pet: {},
       FamMember: [],
-      Apartment: [],
+      Apartment: {},
       Note: "",
     });
 
@@ -157,6 +138,17 @@ const Form = () => {
   };
 
 
+  const handleSubmit = () => {
+    if (formData.FamMember.length === 0) {
+      return alert("Please add a family member")
+    }
+    if (formData.ContactNumber.trim() === "" || formData.HouseNumber.trim() === "" || formData.Location.Kilometer.trim() === "")
+      return alert("Please fill up important fields")
+
+    setOpenvalidationmodal(!openvalidationmodal)
+  }
+
+
   return (
     <div className="w-full lg:w-1/2 h-fit p-10 flex flex-col gap-10 border-[1px]" >
       <div className="flex justify-between">
@@ -173,7 +165,7 @@ const Form = () => {
         setFormData={setFormData} />
 
       <div>
-        <button onClick={() => setOpenvalidationmodal(!openvalidationmodal)} className="w-full bg-slate-200 text-black font-semibold tracking-widest rounded-md py-2 hover:bg-blue-600 hover:text-white duration-300">SUBMIT FORM</button>
+        <button onClick={() => handleSubmit()} className="w-full bg-slate-200 text-black font-semibold tracking-widest rounded-md py-2 hover:bg-blue-600 hover:text-white duration-300">SUBMIT FORM</button>
       </div>
 
       {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}

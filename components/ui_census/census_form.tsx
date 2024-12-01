@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { IoEye, IoEyeOff } from "react-icons/io5";
 import { IoLocationSharp, IoPeopleSharp, IoPerson } from "react-icons/io5";
-import { FaFileAlt, FaBuilding } from "react-icons/fa";
 import { MdYard, MdOutlinePets } from "react-icons/md";
 import CensusMemberForm from "./census_member_form";
 import CensusApartment from "./census_apartment_form";
+import { FaCarRear } from "react-icons/fa6";
 import { Checkbox } from "@/components/ui/checkbox";
+import { MdOutlineDevices } from "react-icons/md";
+import { PiTelevisionSimpleLight } from "react-icons/pi";
+import { MdFamilyRestroom } from "react-icons/md";
 import {
     Select,
     SelectContent,
@@ -14,7 +16,9 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { set } from "react-hook-form";
+import { LuAsterisk } from "react-icons/lu";
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 
 const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMemberForm,
@@ -66,11 +70,23 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                 Height: "",
             });
         }
+        setMinimizeForm(!minimizeForm)
+        scrollToDiv()
     };
 
     const handleShowMemberInformation = (member: any) => {
-        setMinimizeForm(true)
         setSelectedUser(member)
+    }
+
+    function scrollToDiv(): void {
+        const targetDiv = document.getElementById("targetDiv");
+
+        if (targetDiv) {
+            targetDiv.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     }
 
     return <>
@@ -83,7 +99,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
             <div className="mt-5 flex flex-col gap-3 text-[1.6vh] ">
 
                 <div className="flex w-full gap-2 items-center">
-                    <label className="font-semibold tracking-wider">
+                    <label className="font-semibold tracking-wider flex">
                         FAMILY MEMBERS NO:
                     </label>
                     <label className="text-white  h-fit w-fit rounded">
@@ -92,8 +108,8 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                 </div>
 
                 <div className="flex w-full flex-col gap-2  ">
-                    <label className="font-semibold tracking-wider">
-                        HOUSE CONTACT NO:
+                    <label className="font-semibold tracking-wider flex gap-1">
+                        HOUSE CONTACT NO:  <LuAsterisk className="text-red-500 text-[0.8rem]" />
                     </label>
                     <input
                         value={formData.ContactNumber}
@@ -113,8 +129,8 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                     <IoLocationSharp /> LOCATION
                 </h1>
                 <div className="flex w-full flex-col gap-2  ">
-                    <label className="font-semibold tracking-wider">
-                        HOUSE NO:
+                    <label className="font-semibold tracking-wider flex gap-1">
+                        HOUSE NO:  <LuAsterisk className="text-red-500 text-[0.8rem]" /> <span className="italic text-slate-500">{"(Type NA if not applicable)"}</span>
                     </label>
                     <input
                         value={formData.HouseNumber}
@@ -179,7 +195,9 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                 </div>
 
                 <div className="flex w-full flex-col gap-2">
-                    <label className="font-semibold tracking-wider">KM:</label>
+                    <label className="font-semibold tracking-wider flex gap-1">
+                        KM:  <LuAsterisk className="text-red-500 text-[0.8rem]" /> <span className="italic text-slate-500">{"(Choose OTHER if not applicable)"}</span>
+                    </label>
                     <Select
                         disabled={edit}
                         name="Kilometer"
@@ -283,6 +301,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                 </>}
 
                 <h1
+                    id="targetDiv"
                     onClick={() => console.log(formData)}
                     className="font-semibold flex items-center gap-2 text-[1.2rem] mt-5"
                 >
@@ -321,7 +340,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                     </div>
                 }
 
-                <div>
+                <div className="mt-5">
                     <CensusApartment formData={formData} setFormData={setFormData} setEdit={setEdit} edit={edit} />
                 </div>
 
@@ -519,9 +538,236 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                     Remarks: e.target.value,
                                 }))
                             }
-                            className="w-full rounded-md p-2 border-0"
+                            className="w-full rounded-md p-2 bg-transparent border-[1px]"
                         ></textarea>
                     </div>
+
+                    <div className="flex flex-col gap-3 mt-4">
+                        <label className="text-[1.2rem] font-semibold flex items-center gap-2 ">
+                            <FaCarRear /> VEHICLE
+                        </label>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">4 WHEEL VEHICLE</label>
+                                <span className="italic text-xs text-slate-500 tracking-widest">{"(Car, Van, Truck)"}</span>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Vehicle?.fourwheel}
+                                type="number"
+                                name="fourwheel"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Vehicle: { ...prev.Vehicle, fourwheel: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">3 WHEEL VEHICLE</label>
+                                <span className="italic text-xs text-slate-500 tracking-widest">{"(Tricycle)"}</span>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Vehicle?.treewheel}
+                                type="number"
+                                name="treewheel"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Vehicle: { ...prev.Vehicle, treewheel: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">2 WHEEL VEHICLE</label>
+                                <span className="italic text-xs text-slate-500 tracking-widest">{"(Motorcycle)"}</span>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Vehicle?.twowheel}
+                                type="number"
+                                name="twowheel"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Vehicle: { ...prev.Vehicle, twowheel: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-3 mt-4">
+                        <label className="text-[1.2rem] font-semibold flex items-center gap-2 ">
+                            <MdOutlineDevices /> DEVICES
+                        </label>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">SMART PHONE</label>
+                                <span className="italic text-xs text-slate-500 tracking-widest">{"(Cellphone, Tablet)"}</span>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Devices?.smartphone}
+                                type="number"
+                                name="smartphone"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Devices: { ...prev.Devices, smartphone: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">COMPUTER</label>
+                                <span className="italic text-xs text-slate-500 tracking-widest">{"(Desktop, Laptop)"}</span>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Devices?.computer}
+                                type="number"
+                                name="computer"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Devices: { ...prev.Devices, computer: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">WIFI</label>
+                                <span className="italic text-xs text-slate-500 tracking-widest">{"(Desktop, Laptop)"}</span>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Devices?.wifi}
+                                type="number"
+                                name="wifi"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Devices: { ...prev.Devices, wifi: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                    </div>
+
+
+                    <div className="flex flex-col gap-3 mt-4">
+                        <label className="text-[1.2rem] font-semibold flex items-center gap-2 ">
+                            <PiTelevisionSimpleLight /> APPLIANCES
+                        </label>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">AIRCON</label>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Appliances?.aircon}
+                                type="number"
+                                name="aircon"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Appliances: { ...prev.Appliances, aircon: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">REFIGIRATOR</label>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Appliances?.refigerator}
+                                type="number"
+                                name="refigerator"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Appliances: { ...prev.Appliances, refigerator: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">TELEVISION</label>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Appliances?.television}
+                                type="number"
+                                name="television"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Appliances: { ...prev.Appliances, television: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex w-full items-center gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">WASHING MACHINE/DRYER</label>
+                            </div>
+                            <input
+                                disabled={edit}
+                                value={formData.Appliances?.washcingmachine}
+                                type="number"
+                                name="washcingmachine"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Appliances: { ...prev.Appliances, washcingmachine: e.target.value },
+                                }))}
+                                className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
+                            />
+                        </div>
+                        <div className="flex flex-col w-full items-start gap-2">
+                            <div className="flex items-center flex-col">
+                                <label className="text-lg tracking-widest">OTHER APPLIANCES</label>
+                            </div>
+                            <textarea
+                                disabled={edit}
+                                value={formData.Appliances?.other}
+                                name="other"
+                                onChange={(e) => setFormData((prev: any) => ({
+                                    ...prev,
+                                    Appliances: { ...prev.Appliances, other: e.target.value },
+                                }))}
+                                className="w-full rounded-md p-2 bg-transparent border-[1px]"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-3 mt-4 w-auto">
+                        <label className="text-[1.2rem] font-semibold flex items-center gap-2 ">
+                            <MdFamilyRestroom /> FAMILY CLASS
+                        </label>
+                        <RadioGroup
+                            onValueChange={(value) => setFormData((prev: any) => ({
+                                ...prev,
+                                FamClass: value,
+                            }))}
+                            value={formData.FamClass}
+                            className="flex gap-5">
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="low" id="low" />
+                                <Label htmlFor="low">LOW CLASS</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="mid" id="mid" />
+                                <Label htmlFor="mid">MIDDLE CLASS</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="high" id="high" />
+                                <Label htmlFor="high">HIGH CLASS</Label>
+                            </div>
+                        </RadioGroup>
+                    </div>
+
                     <div className="flex flex-col gap-2 w-full mt-10">
                         <div className="flex justify-center w-full mb-5">
                             <div className="w-[90%] h-[1px] bg-slate-800" />
@@ -530,7 +776,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                         <label className="text-lg tracking-widest">NOTE:</label>
                         <textarea
                             disabled={edit}
-                            rows={2}
+                            rows={6}
                             value={formData.Note}
                             onChange={(e) =>
                                 setFormData((prev: any) => ({
@@ -538,7 +784,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                     Note: e.target.value,
                                 }))
                             }
-                            className="w-full rounded-md p-2 border-0"
+                            className="w-full rounded-md p-2 bg-transparent border-[1px]"
                         ></textarea>
                     </div>
                 </div>

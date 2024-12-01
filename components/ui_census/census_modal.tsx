@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { getAllRelatedInformation } from "@/lib/api/apitGET";
 import CensusForm from "./census_form";
-import { updateChecker } from "@/lib/api/apiUpdate";
+import { updateChecker } from "@/lib/api/apiUPDATE";
 import MemberModal from "./member_modal";
 
 const CensusModal = ({
@@ -26,12 +26,16 @@ const CensusModal = ({
         AgentId: item.AgentId,
         DoYouHave: item.DoYouHave,
         HouseHoldUses: item.HouseHoldUses,
+        Devices: item.Devices,
+        Vehicles: item.Vehicles,
+        Appliances: item.Appliances,
         Location: item.Location,
         Pet: item.Pet,
         FamMember: item.FamMember,
         Apartment: item.Apartment,
         Note: "",
     });
+
 
     const [memberForm, setMemberForm] = useState({
         MemberId: "",

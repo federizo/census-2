@@ -70,6 +70,8 @@ const pouplationCofig = {
 } satisfies ChartConfig
 
 const CensusGraph = () => {
+
+    const data = []
     return <div className="flex gap-4 w-full h-full overflow-y-auto">
         <div className="w-full h-1/2 dark:bg-graident-dark rounded-md shadow-md py-4">
             <div className="w-full text-center p-2 tracking-wide">Female and Male recorded for each month</div>

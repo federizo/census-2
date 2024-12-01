@@ -2,8 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaRegEdit } from "react-icons/fa";
 import { getAllRelatedInformation } from "@/lib/api/apitGET";
-import CensusForm from "./census_form";
-import MemberModal from "./member_modal";
+import CensusForm from "../../../../components/ui_census/census_form";
+import MemberModal from "../../../../components/ui_census/member_modal";
 import { updateChecker } from "@/lib/api/apiUPDATE"
 
 const CensusModal = ({

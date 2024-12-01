@@ -1,7 +1,7 @@
 "use client"
 import React, { useLayoutEffect, useState } from "react";
 import { getAllHouseProfile } from "../../../lib/api/apitGET";
-import CensusCard from "../../../components/ui_census/census_card";
+import CensusCard from "./ui/census_card";
 import CensusGraph from "@/components/ui_census/census_graph";
 
 export default function Dashboard() {

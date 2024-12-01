@@ -3,7 +3,7 @@
 import { supabaseAdmin } from "../supabase";
 import { v4 as uuidv4 } from 'uuid';
 
-const api = async (formData: any, agentid: string) => {
+const apiINSERT = async (formData: any, agentid: string) => {
   try {
     const locationID = uuidv4();
     const houseProfileStatus = await HouseProfileINSERT(formData, locationID, agentid);
@@ -25,7 +25,7 @@ const api = async (formData: any, agentid: string) => {
   }
 };
 
-export default api;
+export default apiINSERT;
 
 const HouseProfileINSERT = async (formData: any, locationID: string, agentid: string) => {
   const { ContactNumber, HouseNumber, HouseProfileId, Note, DoYouHave, HouseHoldUses, Vehicle, Devices, Appliances, FamClass } = formData;

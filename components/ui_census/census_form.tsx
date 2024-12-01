@@ -157,12 +157,11 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                         onChange={(e) =>
                             setFormData((prev: any) => ({
                                 ...prev,
-                                Location: [
-                                    {
-                                        ...prev.Location, // Preserve other properties of the first Location object
-                                        Street: e.target.value, // Update only the Street property
-                                    }
-                                ],
+                                Location:
+                                {
+                                    ...prev.Location, // Preserve other properties of the first Location object
+                                    Street: e.target.value, // Update only the Street property
+                                }
                             }))
                         }
                         name="housenumber"
@@ -181,12 +180,12 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                         onChange={(e) =>
                             setFormData((prev: any) => ({
                                 ...prev,
-                                Location: [
-                                    {
-                                        ...prev.Location, // Preserve other properties of the first Location object
-                                        SubdivisionName: e.target.value, // Update only the Street property
-                                    },
-                                ],
+                                Location:
+                                {
+                                    ...prev.Location, // Preserve other properties of the first Location object
+                                    SubdivisionName: e.target.value, // Update only the Street property
+                                },
+
                             }))
                         }
                         name="housenumber"
@@ -238,12 +237,12 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                             onChange={(e) =>
                                 setFormData((prev: any) => ({
                                     ...prev,
-                                    Location: [
-                                        {
-                                            ...prev.Location, // Preserve other properties of the first Location object
-                                            Block: e.target.value, // Update only the Street property
-                                        },
-                                    ],
+                                    Location:
+                                    {
+                                        ...prev.Location, // Preserve other properties of the first Location object
+                                        Block: e.target.value, // Update only the Street property
+                                    },
+
                                 }))
                             }
                             name="housenumber"
@@ -262,12 +261,12 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                             onChange={(e) =>
                                 setFormData((prev: any) => ({
                                     ...prev,
-                                    Location: [
-                                        {
-                                            ...prev.Location, // Preserve other properties of the first Location object
-                                            Lot: e.target.value, // Update only the Street property
-                                        },
-                                    ],
+                                    Location:
+                                    {
+                                        ...prev.Location, // Preserve other properties of the first Location object
+                                        Lot: e.target.value, // Update only the Street property
+                                    },
+
                                 }))
                             }
                             name="housenumber"
@@ -286,12 +285,11 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                             onChange={(e) =>
                                 setFormData((prev: any) => ({
                                     ...prev,
-                                    Location: [
-                                        {
-                                            ...prev.Location, // Preserve other properties of the first Location object
-                                            Phase: e.target.value, // Update only the Street property
-                                        },
-                                    ],
+                                    Location:
+                                    {
+                                        ...prev.Location, // Preserve other properties of the first Location object
+                                        Phase: e.target.value, // Update only the Street property
+                                    },
                                 }))
                             }
                             name="housenumber"

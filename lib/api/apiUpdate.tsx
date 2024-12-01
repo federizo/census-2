@@ -71,8 +71,10 @@ const updateFamMember = async (data: any) => {
 const updateLocation = async (data: any) => {
     const supabase = await createSupbaseServerClient()
 
+    console.log(data.Location);
+
     const { error } = await supabase
-        .from('Apartment')
+        .from('Location')
         .update({
             Street: data.Location.Street,
             Block: data.Location.Block,
@@ -91,7 +93,7 @@ const updatePet = async (data: any) => {
     const supabase = await createSupbaseServerClient()
 
     const { error } = await supabase
-        .from('Apartment')
+        .from('Pet')
         .update({
             TypeofPet: data.Pet.TypeofPet,
             Remarks: data.Pet.Remarks,

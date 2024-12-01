@@ -113,8 +113,9 @@ const CensusModal = ({
             return;
         }
 
-        updateChecker(formData, originalFormData.current);
-        alert("Update successful.");
+        if (updateChecker(formData, originalFormData.current))
+            alert("Update successful.");
+        setOpenModal(false)
         originalFormData.current = { ...formData }; // Update reference with latest data
     };
 

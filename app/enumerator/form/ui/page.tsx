@@ -151,7 +151,7 @@ const Form = () => {
 
   return (
     <div className="w-full lg:w-1/2 h-fit p-10 flex flex-col gap-10 border-[1px]" >
-      <div className="flex justify-between">
+      <div className="flex justify-between flex-wrap">
         <h1 className="text-2xl font-bold tracking-widest flex gap-2 items-center">CENSUS FORM<MdFormatAlignLeft /></h1>
         <button className="bg-red-500 px-5 rounded-sm py-1 hover:bg-red-700 duration-200" onClick={() => formClearInputs()}>CLEAR FORM</button>
       </div>

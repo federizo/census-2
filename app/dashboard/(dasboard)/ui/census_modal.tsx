@@ -114,6 +114,12 @@ const CensusModal = ({
             return;
         }
 
+        setFormData((prev: any) => ({
+            ...prev,
+            NumberofMembers: formData.FamMember.length,
+        }))
+
+
         if (await updateChecker(formData, originalFormData.current))
             alert("Update successful.");
         setOpenModal(false)
@@ -141,6 +147,7 @@ const CensusModal = ({
     return (
         <div className="w-screen h-screen flex justify-center items-center inset-0 fixed backdrop-blur-sm p-[5vh]">
             <div className="bg-black flex-col flex gap-y-5 lg:w-[70vh] w-full h-full rounded-md shadow-md shadow-slate-950 border-[0.5px] py-5 px-3 z-0">
+
                 <>
                     <div className="w-full flex justify-between items-center">
                         <div className="flex gap-4">

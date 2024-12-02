@@ -158,9 +158,9 @@ export const checkPet = (current: any, prev: any) => {
         NumberofPet: current.Pet.NumberofPet,
     }
     const pre = {
-        TypeofPet: current.Pet.TypeofPet,
-        Remarks: current.Pet.Remarks,
-        NumberofPet: current.Pet.NumberofPet,
+        TypeofPet: prev.Pet.TypeofPet,
+        Remarks: prev.Pet.Remarks,
+        NumberofPet: prev.Pet.NumberofPet,
     }
 
     if (JSON.stringify(pre) !== JSON.stringify(curr))
@@ -168,23 +168,13 @@ export const checkPet = (current: any, prev: any) => {
     else
         return false
 }
-
 export const checkFamMember = (current: any, prev: any) => {
-    // const curr = {
-    //     TypeofPet: current.Pet.TypeofPet,
-    //     Remarks: current.Pet.Remarks,
-    //     NumberofPet: current.Pet.NumberofPet,
-    // }
-    // const pre = {
-    //     TypeofPet: current.Pet.TypeofPet,
-    //     Remarks: current.Pet.Remarks,
-    //     NumberofPet: current.Pet.NumberofPet,
-    // }
+    const curr = current.FamMember
+    const pre = prev.FamMember
 
-    // if (JSON.stringify(pre) !== JSON.stringify(curr))
-    //     return true
-    // else
-    //     return false
-    return true
+    if (JSON.stringify(pre) !== JSON.stringify(curr))
+        return true
+    else
+        return false
 }
 

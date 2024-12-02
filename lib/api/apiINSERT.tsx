@@ -7,7 +7,7 @@ const apiINSERT = async (formData: any, agentid: string) => {
   try {
     const locationID = uuidv4();
     const houseProfileStatus = await HouseProfileINSERT(formData, locationID, agentid);
-    const memberStatus = await MemberINSERT(formData);
+    const memberStatus = await MemberINSERT(formData, formData.HouseProfileId);
     const locationStatus = await LocationINSERT(formData, locationID);
     const petStatus = await PetINSERT(formData);
     const apartmentStatus = await ApartmentINSERT(formData)
@@ -63,8 +63,8 @@ const HouseProfileINSERT = async (formData: any, locationID: string, agentid: st
 
 
 
-const MemberINSERT = async (data: any) => {
-  const { FamMember, HouseProfileId } = data;
+export const MemberINSERT = async (data: any, HouseProfileId: any) => {
+  const { FamMember } = data;
   let successfulInserts = 0;
 
   const Insert = async (member: any): Promise<boolean> => {

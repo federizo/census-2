@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="w-screen h-screen  flex flex-col">
       <FloatingNavbar />
-      <div className="w-full h-full overflow-y-auto flex flex-col items-center px-10 py-10">
+      <div className="w-full h-full overflow-y-auto flex flex-col items-center px-3 py-3 lg:py-8">
         <Form />
       </div>
     </div>

@@ -15,13 +15,12 @@ export default async function Layout({ children }: { children: ReactNode }) {
 
   useUserStore.setState({ user: userSession.session.user });
   return (
-    <div className="w-full flex ">
-      <div className="h-screen flex flex-col">
+    <div className="w-full h-screen flex overflow-hidden ">
+      <div className="h-full flex flex-col">
         <SideNav />
         <MobileSideNav />
       </div>
-
-      <div className="w-full sm:flex-1 p-5 sm:p-10 space-y-5 bg-gray-100 dark:bg-inherit">
+      <div className="w-full h-full p-5 sm:p-5 gap-y-5 bg-gray-100 dark:bg-inherit">
         <ToggleSidebar />
         {children}
       </div>

@@ -2,7 +2,9 @@
 import React, { useLayoutEffect, useState } from "react";
 import { getAllHouseProfile } from "../../../lib/api/apitGET";
 import CensusCard from "./ui/census_card";
-import CensusGraph from "@/components/ui_census/census_graph";
+import CensusGraph from "@/components/ui_census/census_graph_population";
+import CensusGraphPopulation from "@/components/ui_census/census_graph_population";
+import CensusGraphMaleFemale from "@/components/ui_census/census_graph_male_female";
 
 export default function Dashboard() {
   const headers = ["HOUSE NO.", "HOUSE CONTACT", "NO. OF MEMBERS", "CREATED BY"];
@@ -36,20 +38,22 @@ export default function Dashboard() {
 
 
   return (
-    <div className="h-auto flex flex-col w-full gap-10">
+    <div className="flex flex-col h-full overflow-auto">
+      <div className="hidden lg:grid grid-cols-2 gap-4 w-full h-[430px] overflow-y-auto shrink-0">
 
-      <div className="flex gap-4 w-full h-full overflow-y-auto">
-        <CensusGraph />
+        <CensusGraphMaleFemale year={2024} />
+        <CensusGraphPopulation />
+
       </div>
 
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full overflow-y-auto mt-5">
         <div className="w-full flex justify-between">
           <label>Number of Census Data: {censusData.length}</label>
           <button onClick={() => handleFetchHouseProfile()}>Refresh</button>
         </div>
 
-        <div className="rounded-md border-zinc-200 dark:border-zinc-800 w-full overflow-y-auto border dark:bg-graident-dark">
-          <div className="w-full bg-white dark:bg-inherit rounded-md space-y-5 py-5">
+        <div className="rounded-md border-zinc-200 dark:border-zinc-800 w-full h-full overflow-y-auto border dark:bg-graident-dark">
+          <div className="w-full bg-white dark:bg-inherit rounded-md space-y-5 py-5 ">
             <div className="grid grid-cols-5  py-2 border-b pb-5 dark:border-zinc-600">
               {headers.map((header, index) => (
                 <h1 key={index} className="font-medium text-sm dark:text-gray-500 text-center">
@@ -57,13 +61,13 @@ export default function Dashboard() {
                 </h1>
               ))}
             </div>
-            <>
+            <div className="h-full overflow-y-auto">
               {censusData.length === 0 ? <div className="w-full flex justify-center font-semibold tracking-widest">NO DATA</div> : <>
                 {censusData?.map((item: any, index: number) => (
                   <CensusCard key={index} item={item} />
                 ))}
               </>}
-            </>
+            </div>
           </div>
         </div>
       </div>

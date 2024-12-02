@@ -68,3 +68,46 @@ export const getAllRelatedInformation = async (item: { HouseProfileId?: string }
         return [];
     }
 };
+
+
+export const getFamMember = async () => {
+    try {
+        const supabase = await createSupbaseServerClient();
+
+        const { data, error } = await supabase
+            .from("FamMember")
+            .select("*")
+
+        if (error) {
+            console.log(error)
+            return []
+        }
+
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getHouseProfile = async () => {
+    try {
+        const supabase = await createSupbaseServerClient();
+
+        const { data, error } = await supabase
+            .from("HouseProfile")
+            .select(`
+                *,
+                Location(*)
+            `)
+
+        if (error) {
+            console.log(error)
+            return []
+        }
+
+        return data
+    } catch (error) {
+        console.log(error)
+    }
+}

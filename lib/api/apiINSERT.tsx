@@ -28,7 +28,7 @@ const apiINSERT = async (formData: any, agentid: string) => {
 export default apiINSERT;
 
 const HouseProfileINSERT = async (formData: any, locationID: string, agentid: string) => {
-  const { ContactNumber, HouseNumber, HouseProfileId, Note, DoYouHave, HouseHoldUses, Vehicle, Devices, Appliances, FamClass } = formData;
+  const { ContactNumber, HouseNumber, HouseProfileId, Note, DoYouHave, HouseHoldUses, Vehicle, Devices, Appliances, FamClass, RespondentName, RespondentSignature } = formData;
 
   const NoMember = formData.FamMember.length;
 
@@ -42,6 +42,8 @@ const HouseProfileINSERT = async (formData: any, locationID: string, agentid: st
         LocationId: locationID,
         NumberofMembers: NoMember,
         AgentId: agentid,
+        RespondentName: RespondentName,
+        RespondentSignature: RespondentSignature,
         DoYouHave: DoYouHave,
         HouseHoldUses: HouseHoldUses,
         Vehicle: Vehicle,

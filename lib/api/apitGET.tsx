@@ -74,20 +74,62 @@ export const getFamMember = async () => {
     try {
         const supabase = await createSupbaseServerClient();
 
-        const { data, error } = await supabase
+        // Fetch the two sets of data from 2024
+        const { data: FamMember, error: fammemberError } = await supabase
             .from("FamMember")
             .select("*")
+            .gte("created_at", "2024-01-01T00:00:00Z")
+            .lt("created_at", "2025-01-01T00:00:00Z");
 
-        if (error) {
-            console.log(error)
-            return []
+        const { data: Location, error: locationError } = await supabase
+            .from("Location")
+            .select("*")
+            .gte("created_at", "2024-01-01T00:00:00Z")
+            .lt("created_at", "2025-01-01T00:00:00Z");
+
+        if (fammemberError || locationError) {
+            console.log("Something went wrong fetching Census Data");
+            return [];
         }
 
-        return data
+        // Group data by HouseProfileId
+        const groupedData = groupByHouseProfileId(FamMember, Location);
+
+
+
+        return groupedData;
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        return [];
     }
-}
+};
+
+const groupByHouseProfileId = (famMemberData: any[], locationData: any[]) => {
+    const combinedData: Record<string, any> = {};
+
+    // Process FamMember Data
+    famMemberData.forEach((item) => {
+        const houseProfileId = item.HouseProfileId;
+        if (!combinedData[houseProfileId]) {
+            combinedData[houseProfileId] = { FamMembers: [], Locations: [] };
+        }
+        combinedData[houseProfileId].FamMembers.push(item);
+    });
+
+    // Process Location Data
+    locationData.forEach((item) => {
+        const houseProfileId = item.HouseProfileId;
+        if (!combinedData[houseProfileId]) {
+            combinedData[houseProfileId] = { FamMembers: [], Locations: [] };
+        }
+        combinedData[houseProfileId].Locations.push(item);
+    });
+
+    return Object.values(combinedData);
+};
+
+
+
 
 
 export const getHouseProfile = async () => {

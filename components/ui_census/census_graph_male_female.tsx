@@ -24,18 +24,15 @@ const chartConfig = {
 const CensusGraphMaleFemale = ({ year }: { year: number }) => {
 
     const [chartData, setChartData] = useState<any>([
-        { month: "January", female: 0, male: 0 },
-        { month: "February", female: 0, male: 0 },
-        { month: "March", female: 0, male: 0 },
-        { month: "April", female: 0, male: 0 },
-        { month: "May", female: 0, male: 0 },
-        { month: "June", female: 0, male: 0 },
-        { month: "July", female: 0, male: 0 },
-        { month: "August", female: 0, male: 0 },
-        { month: "September", female: 0, male: 0 },
-        { month: "October", female: 0, male: 0 },
-        { month: "November", female: 0, male: 0 },
-        { month: "December", female: 0, male: 0 },
+        { kilometer: "37", kilometerlabel: "KM 37", female: 0, male: 0 },
+        { kilometer: "38-A", kilometerlabel: "KM 38-A", female: 0, male: 0 },
+        { kilometer: "38-B", kilometerlabel: "KM 38-B", female: 0, male: 0 },
+        { kilometer: "38-POBLACION", kilometerlabel: "KM 38-POBLACION", female: 0, male: 0 },
+        { kilometer: "39", kilometerlabel: "KM 39", female: 0, male: 0 },
+        { kilometer: "40", kilometerlabel: "KM 40", female: 0, male: 0 },
+        { kilometer: "41", kilometerlabel: "KM 41", female: 0, male: 0 },
+        { kilometer: "42", kilometerlabel: "KM 42", female: 0, male: 0 },
+        { kilometer: "OTHER", kilometerlabel: "OTHER", female: 0, male: 0 },
     ])
 
     const [dataDB, setDataDB] = useState<any>([])
@@ -51,37 +48,61 @@ const CensusGraphMaleFemale = ({ year }: { year: number }) => {
 
     }, [])
 
-    useEffect(() => {
-        if (dataDB.length > 0) {
-            const updatedChartData = chartData.map((entry: any) => {
-                const monthIndex = new Date(`${entry.month} 1, ${year}`).getMonth();
-                const monthData = dataDB.filter((item: any) => {
-                    const itemMonth = new Date(item.created_at).getMonth();
-                    return itemMonth === monthIndex;
-                });
 
-                return {
-                    ...entry,
-                    male: monthData.filter((item: any) => item.Gender === "male").length,
-                    female: monthData.filter((item: any) => item.Gender === "female").length,
-                };
+    useEffect(() => {
+        const processData = () => {
+            const maleFemaleCount: Record<string, { male: number; female: number }> = {};
+
+            // Flatten and sort the data by created_at date
+            const sortedData = dataDB
+                .flatMap(({ FamMembers, Locations }: { FamMembers: any, Locations: any }) =>
+                    Locations.map((location: any) => ({ location, members: FamMembers }))
+                )
+                .sort((a: any, b: any) =>
+                    new Date(a.location.created_at).getTime() -
+                    new Date(b.location.created_at).getTime()
+                );
+
+            sortedData.forEach(({ members, location }: { members: any, location: any }) => {
+                const kilometer = location.Kilometer || "OTHER";
+                if (!maleFemaleCount[kilometer]) {
+                    maleFemaleCount[kilometer] = { male: 0, female: 0 };
+                }
+
+                members.forEach((member: any) => {
+                    if (member.Gender === "male") {
+                        maleFemaleCount[kilometer].male += 1;
+                    } else if (member.Gender === "female") {
+                        maleFemaleCount[kilometer].female += 1;
+                    }
+                });
             });
 
-            setChartData(updatedChartData);
-        }
-    }, [dataDB]);
+            const newChartData = chartData.map((data: any) => ({
+                ...data,
+                male: maleFemaleCount[data.kilometer]?.male || 0,
+                female: maleFemaleCount[data.kilometer]?.female || 0,
+            }));
+
+            setChartData(newChartData);
+        };
+
+        processData();
+    }, [chartData]);
+
 
     return <div className="w-full h-full dark:bg-graident-dark rounded-md shadow-md py-2 border-[1px]">
-        <div className="w-full text-center p-2 tracking-wide">Female and Male recorded for each month ({year})</div>
+
+        <div className="w-full text-center p-2 tracking-wide">Female and Male recorded for each KM ({year})</div>
         <ChartContainer config={chartConfig} className="h-[90%] w-full">
             <BarChart accessibilityLayer data={chartData}>
                 <CartesianGrid vertical={false} />
                 <XAxis
-                    dataKey="month"
+                    dataKey="kilometerlabel"
                     tickLine={false}
                     tickMargin={10}
                     axisLine={false}
-                    tickFormatter={(value) => value.slice(0, 3)}
+                    tickFormatter={(value) => value.slice(0, 8)}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Bar dataKey="male" fill="var(--color-male)" radius={4} />

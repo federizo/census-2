@@ -5,7 +5,10 @@ import { getAllRelatedInformation } from "@/lib/api/apitGET";
 import { updateChecker } from "@/lib/api/apiUPDATE";
 import CensusForm from "../../../../components/ui_census/census_form";
 import MemberModal from "../../../../components/ui_census/member_modal";
-
+import { HouseProfileDELETE } from "@/lib/api/apiDELETE";
+import { Spinner } from "@nextui-org/spinner";
+import Consent from "./consent_modal";
+import Image from "next/image";
 
 const CensusModal = ({
     openModal,
@@ -25,6 +28,8 @@ const CensusModal = ({
         LocationId: item.LocationId,
         NumberofMembers: item.NumberofMembers,
         AgentId: item.AgentId,
+        RespondentName: item.RespondentName,
+        RespondentSignature: item.RespondentSignature,
         DoYouHave: item.DoYouHave,
         HouseHoldUses: item.HouseHoldUses,
         Devices: item.Devices,
@@ -66,6 +71,8 @@ const CensusModal = ({
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [edit, setEdit] = useState<boolean>(true);
+    const [updating, setUpdating] = useState<boolean>(false)
+    const [deleteModal, setDeleteModal] = useState<boolean>(false)
 
 
     const originalFormData = useRef(formData);
@@ -113,7 +120,7 @@ const CensusModal = ({
             alert("No changes detected.");
             return;
         }
-
+        setUpdating(true)
         setFormData((prev: any) => ({
             ...prev,
             NumberofMembers: formData.FamMember.length,
@@ -124,6 +131,7 @@ const CensusModal = ({
             alert("Update successful.");
         setOpenModal(false)
         originalFormData.current = { ...formData }; // Update reference with latest data
+        setUpdating(false)
     };
 
     const handleCloseModal = () => {
@@ -135,6 +143,26 @@ const CensusModal = ({
         setEdit(!edit)
         setSelectedUser([])
     }
+
+    const handleDelete = () => {
+        setDeleteModal(true)
+
+    };
+
+    const handleDoDelete = async () => {
+        try {
+            const status = await HouseProfileDELETE(item.HouseProfileId);
+
+            if (status.success) {
+                location.reload();
+            } else {
+                console.error("Deletion failed:", status.message);
+            }
+        } catch (error) {
+            console.error("An error occurred during deletion:", error);
+        }
+    }
+
 
     useEffect(() => {
         if (openModal) {
@@ -175,26 +203,63 @@ const CensusModal = ({
                                     UPDATE
                                 </button>
                             )}
+                            {!edit && <>
+                                <button onClick={() => handleDelete()} className="border-[1px] duration-300 px-5 py-1 rounded-md flex gap-1 items-center hover:bg-slate-300 hover:text-black">
+                                    DELETE
+                                </button>
+
+                                <Consent deleteModal={deleteModal} setDeleteModal={setDeleteModal} onConfirm={handleDoDelete} />
+                            </>}
                         </div>
 
-                        <button
-                            onClick={() => handleCloseModal()}
-                            className="hover:text-red-500 text-[4vh] duration-300"
-                        >
-                            <IoClose />
-                        </button>
+                        <div className="flex">
+
+                            <button
+                                onClick={() => handleCloseModal()}
+                                className="hover:text-red-500 text-[4vh] duration-300"
+                            >
+                                <IoClose />
+                            </button>
+                        </div>
+
                     </div>
-                    <div className="w-full flex flex-col h-full overflow-y-auto overflow-x-hidden">
-                        {loading ? <div className="w-full h-full flex items-center justify-center">Loadin...</div> :
-                            <CensusForm
-                                formData={formData}
-                                setFormData={setFormData}
-                                memberForm={memberForm}
-                                setMemberForm={setMemberForm}
-                                edit={edit}
-                                setEdit={setEdit}
-                                setSelectedUser={setSelectedUser}
-                            />}
+                    {!updating ? <div className="w-full flex flex-col h-full overflow-y-auto overflow-x-hidden">
+                        {loading ?
+                            <div className="w-full h-full flex items-center justify-center">
+                                <Spinner
+                                    color="primary"
+                                    label="Fetching Data..."
+                                    labelColor="primary"
+                                />
+                            </div> : <>
+                                <CensusForm
+                                    formData={formData}
+                                    setFormData={setFormData}
+                                    memberForm={memberForm}
+                                    setMemberForm={setMemberForm}
+                                    edit={edit}
+                                    setEdit={setEdit}
+                                    setSelectedUser={setSelectedUser}
+                                />
+
+                                {formData.RespondentSignature !== null && formData.RespondentName !== null &&
+                                    <div className="mt-5 w-full items-center justify-center flex flex-col">
+
+                                        <Image
+                                            src={formData.RespondentSignature}
+                                            width={200}
+                                            height={200}
+                                            alt="Respondent signature"
+                                            className="p-5 invert"
+                                        />
+                                        <label className="-mt-4">
+                                            {formData.RespondentName}
+                                        </label>
+
+                                    </div>}
+
+                            </>
+                        }
 
                         {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
                         <MemberModal
@@ -202,7 +267,17 @@ const CensusModal = ({
                             setSelectedUser={setSelectedUser}
                             formData={formData}
                             setFormData={setFormData} />
-                    </div>
+                    </div> :
+                        <div className="w-full h-full flex flex-col items-center justify-center">
+                            <Spinner
+                                color="primary"
+                                label="Updating Data..."
+                                labelColor="primary"
+                            />
+                            <label>Please wait.</label>
+                        </div>
+                    }
+
                 </>
             </div>
         </div>

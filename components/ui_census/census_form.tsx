@@ -119,7 +119,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                         onChange={(e) =>
                             setFormData((prev: any) => ({
                                 ...prev,
-                                ContactNumber: e.target.value,
+                                ContactNumber: e.target.value.toUpperCase(),
                             }))
                         }
                         className="text-white border-[0.5px] bg-transparent p-2 h-fit w-full rounded"
@@ -139,7 +139,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                         onChange={(e) =>
                             setFormData((prev: any) => ({
                                 ...prev,
-                                HouseNumber: e.target.value,
+                                HouseNumber: e.target.value.toUpperCase(),
                             }))
                         }
                         name="HouseNumber"
@@ -160,7 +160,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 Location:
                                 {
                                     ...prev.Location, // Preserve other properties of the first Location object
-                                    Street: e.target.value, // Update only the Street property
+                                    Street: e.target.value.toUpperCase(), // Update only the Street property
                                 }
                             }))
                         }
@@ -183,7 +183,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 Location:
                                 {
                                     ...prev.Location, // Preserve other properties of the first Location object
-                                    SubdivisionName: e.target.value, // Update only the Street property
+                                    SubdivisionName: e.target.value.toUpperCase(), // Update only the Street property
                                 },
 
                             }))
@@ -216,9 +216,12 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                         </SelectTrigger>
                         <SelectContent>
                             <SelectItem value="37">37</SelectItem>
-                            <SelectItem value="38">38</SelectItem>
-                            <SelectItem value="39">39</SelectItem>
+                            <SelectItem value="38-A">38-A</SelectItem>
+                            <SelectItem value="38-B">38-B</SelectItem>
+                            <SelectItem value="38-POBLACION">38-Poblacion</SelectItem>
                             <SelectItem value="40">40</SelectItem>
+                            <SelectItem value="41">41</SelectItem>
+                            <SelectItem value="42">42</SelectItem>
                             <SelectItem value="OTHER">OTHER</SelectItem>
                         </SelectContent>
                     </Select>
@@ -240,7 +243,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                     Location:
                                     {
                                         ...prev.Location, // Preserve other properties of the first Location object
-                                        Block: e.target.value, // Update only the Street property
+                                        Block: e.target.value.toUpperCase(), // Update only the Street property
                                     },
 
                                 }))
@@ -264,7 +267,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                     Location:
                                     {
                                         ...prev.Location, // Preserve other properties of the first Location object
-                                        Lot: e.target.value, // Update only the Street property
+                                        Lot: e.target.value.toUpperCase(), // Update only the Street property
                                     },
 
                                 }))
@@ -288,7 +291,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                     Location:
                                     {
                                         ...prev.Location, // Preserve other properties of the first Location object
-                                        Phase: e.target.value, // Update only the Street property
+                                        Phase: e.target.value.toUpperCase(), // Update only the Street property
                                     },
                                 }))
                             }
@@ -488,7 +491,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                             onChange={(e) =>
                                 setFormData((prev: any) => ({
                                     ...prev,
-                                    Pet: { ...prev.Pet, NumberofPet: { ...prev.Pet.NumberofPet, dogno: e.target.value } },
+                                    Pet: { ...prev.Pet, NumberofPet: { ...prev.Pet.NumberofPet, dogno: e.target.value.toUpperCase() } },
                                 }))
                             }
                             className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
@@ -517,27 +520,11 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                             onChange={(e) =>
                                 setFormData((prev: any) => ({
                                     ...prev,
-                                    Pet: { ...prev.Pet, NumberofPet: { ...prev.Pet.NumberofPet, catno: e.target.value } },
+                                    Pet: { ...prev.Pet, NumberofPet: { ...prev.Pet.NumberofPet, catno: e.target.value.toUpperCase() } },
                                 }))
                             }
                             className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                         />
-                    </div>
-
-                    <div className="flex flex-col gap-2 w-full">
-                        <label className="text-lg tracking-widest">OTHER PET</label>
-                        <textarea
-                            disabled={edit}
-                            rows={2}
-                            value={formData.Remarks || formData.Pet.Remarks}
-                            onChange={(e) =>
-                                setFormData((prev: any) => ({
-                                    ...prev,
-                                    Remarks: e.target.value,
-                                }))
-                            }
-                            className="w-full rounded-md p-2 bg-transparent border-[1px]"
-                        ></textarea>
                     </div>
 
                     <div className="flex flex-col gap-3 mt-4">
@@ -556,7 +543,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="fourwheel"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Vehicle: { ...prev.Vehicle, fourwheel: e.target.value },
+                                    Vehicle: { ...prev.Vehicle, fourwheel: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -573,7 +560,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="treewheel"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Vehicle: { ...prev.Vehicle, treewheel: e.target.value },
+                                    Vehicle: { ...prev.Vehicle, treewheel: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -590,7 +577,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="twowheel"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Vehicle: { ...prev.Vehicle, twowheel: e.target.value },
+                                    Vehicle: { ...prev.Vehicle, twowheel: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -613,7 +600,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="smartphone"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Devices: { ...prev.Devices, smartphone: e.target.value },
+                                    Devices: { ...prev.Devices, smartphone: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -630,7 +617,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="computer"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Devices: { ...prev.Devices, computer: e.target.value },
+                                    Devices: { ...prev.Devices, computer: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -647,7 +634,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="wifi"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Devices: { ...prev.Devices, wifi: e.target.value },
+                                    Devices: { ...prev.Devices, wifi: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -670,7 +657,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="aircon"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Appliances: { ...prev.Appliances, aircon: e.target.value },
+                                    Appliances: { ...prev.Appliances, aircon: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -686,7 +673,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="refigerator"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Appliances: { ...prev.Appliances, refigerator: e.target.value },
+                                    Appliances: { ...prev.Appliances, refigerator: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -702,7 +689,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="television"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Appliances: { ...prev.Appliances, television: e.target.value },
+                                    Appliances: { ...prev.Appliances, television: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -718,7 +705,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="washcingmachine"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Appliances: { ...prev.Appliances, washcingmachine: e.target.value },
+                                    Appliances: { ...prev.Appliances, washcingmachine: e.target.value.toUpperCase() },
                                 }))}
                                 className="text-white border-[0.5px] bg-transparent p-2 h-fit w-[100px] rounded"
                             />
@@ -733,7 +720,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                                 name="other"
                                 onChange={(e) => setFormData((prev: any) => ({
                                     ...prev,
-                                    Appliances: { ...prev.Appliances, other: e.target.value },
+                                    Appliances: { ...prev.Appliances, other: e.target.value.toUpperCase() },
                                 }))}
                                 className="w-full rounded-md p-2 bg-transparent border-[1px]"
                             />
@@ -766,12 +753,12 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                         </RadioGroup>
                     </div>
 
-                    <div className="flex flex-col gap-2 w-full mt-10">
+                    <div className="flex flex-col gap-2 w-full mt-10 mb-5">
                         <div className="flex justify-center w-full mb-5">
                             <div className="w-[90%] h-[1px] bg-slate-800" />
                         </div>
 
-                        <label className="text-lg tracking-widest">NOTE:</label>
+                        <label className="text-lg tracking-widest">REMARKS:</label>
                         <textarea
                             disabled={edit}
                             rows={6}
@@ -779,7 +766,7 @@ const CensusForm = ({ formData, setFormData, edit, setEdit, memberForm, setMembe
                             onChange={(e) =>
                                 setFormData((prev: any) => ({
                                     ...prev,
-                                    Note: e.target.value,
+                                    Note: e.target.value.toUpperCase(),
                                 }))
                             }
                             className="w-full rounded-md p-2 bg-transparent border-[1px]"

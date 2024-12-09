@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import ValidationModal from "./validationModal";
 import CensusForm from "@/components/ui_census/census_form";
 import { MdFormatAlignLeft } from "react-icons/md";
+import { removeCookies } from "@/lib/actions";
 
 const Form = () => {
   const [formData, setFormData] = useState({
@@ -16,6 +17,8 @@ const Form = () => {
     LocationId: "",
     NumberofMembers: "",
     AgentId: "",
+    RespondentName: "",
+    RespondentSignature: "",
     DoYouHave: {},
     HouseHoldUses: {},
     Devices: {},
@@ -56,13 +59,6 @@ const Form = () => {
   const [edit, setEdit] = useState<boolean>(false); //always turn this false if using the census_form
   const [openvalidationmodal, setOpenvalidationmodal] = useState<boolean>(false)
 
-
-  // const originalFormData = useRef(formData);
-
-  // const deepCompare = (obj1: any, obj2: any): boolean => {
-  //   return JSON.stringify(obj1) === JSON.stringify(obj2);
-  // };
-
   useLayoutEffect(() => {
     const storedData: any = sessionStorage.getItem("formData");
 
@@ -99,6 +95,8 @@ const Form = () => {
       LocationId: "",
       NumberofMembers: "",
       AgentId: "",
+      RespondentName: "",
+      RespondentSignature: "",
       DoYouHave: {},
       HouseHoldUses: {},
       Devices: {},
@@ -149,6 +147,11 @@ const Form = () => {
   }
 
 
+  useLayoutEffect(() => {
+    removeCookies()
+  }, [])
+
+
   return (
     <div className="w-full lg:w-1/2 h-fit p-10 flex flex-col gap-10 border-[1px]" >
       <div className="flex justify-between flex-wrap">
@@ -170,7 +173,7 @@ const Form = () => {
 
       {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
 
-      <ValidationModal openvalidationmodal={openvalidationmodal} setOpenvalidationmodal={setOpenvalidationmodal} setLoading={setLoading} formClearInputs={formClearInputs} formData={formData} />
+      <ValidationModal openvalidationmodal={openvalidationmodal} setOpenvalidationmodal={setOpenvalidationmodal} setLoading={setLoading} formClearInputs={formClearInputs} formData={formData} setFormData={setFormData} />
     </div >
   );
 };

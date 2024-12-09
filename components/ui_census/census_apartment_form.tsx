@@ -8,8 +8,17 @@ import {
 } from "@/components/ui/select"
 import { FaBuilding } from "react-icons/fa";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useEffect, useState } from "react";
 
 const CensusApartmentForm = ({ formData, setFormData, edit, setEdit }: { formData: any, setFormData: React.Dispatch<React.SetStateAction<any>>, edit: boolean, setEdit: React.Dispatch<React.SetStateAction<any>> }) => {
+
+    const [apartment, setApartment] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (formData.Apartment.APTOwner !== null || "") {
+            setApartment(true)
+        }
+    }, [])
 
     const apartmentHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -19,18 +28,27 @@ const CensusApartmentForm = ({ formData, setFormData, edit, setEdit }: { formDat
             ...prev,
             Apartment: {
                 ...prev.Apartment,
-                [name]: value.toString(),
+                [name]: value.toString().toUpperCase(),
             },
         }));
     };
 
     return (
         <div className="grid gap-3 w-full">
-            <h1 className="text-[1.2rem] font-semibold flex items-center gap-2">
-                <FaBuilding />
-                APARTMENT
-            </h1>
-            <>
+            <div className="flex gap-2 items-center">
+                <h1 className="text-[1.2rem] font-semibold flex items-center gap-2">
+                    <FaBuilding />
+                    APARTMENT
+                </h1>
+                <Checkbox
+                    disabled={edit}
+                    className="h-6 w-6 border-[1px] border-slate-100"
+                    name="ApartmentStatus"
+                    checked={apartment}
+                    onCheckedChange={(value: boolean) => setApartment(value)}
+                />
+            </div>
+            {apartment && <>
                 <div className="flex flex-col gap-2">
                     <label className="font-semibold tracking-wider">DOOR NO.</label>
                     <input
@@ -141,7 +159,8 @@ const CensusApartmentForm = ({ formData, setFormData, edit, setEdit }: { formDat
                         </SelectContent>
                     </Select>
                 </div>
-            </>
+            </>}
+
         </div>
     );
 };

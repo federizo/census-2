@@ -146,7 +146,7 @@ const CensusMemberForm = ({ formData, setFormData, memberForm, setMemberForm, mi
                         <SelectTrigger className="w-[180px]  rounded">
                             <SelectValue placeholder="Choose Relationship" />
                         </SelectTrigger>
-                        <SelectContent className=" ">
+                        <SelectContent className=" h-[300px] overflow-y-auto">
                             <SelectItem value="father">Father</SelectItem>
                             <SelectItem value="mother">Mother</SelectItem>
                             <SelectItem value="son">Son</SelectItem>
@@ -174,118 +174,121 @@ const CensusMemberForm = ({ formData, setFormData, memberForm, setMemberForm, mi
                             <SelectItem value="sister-in-law">Sister-in-Law</SelectItem>
                         </SelectContent>
                     </Select>
-
-                    <div className="flex flex-col w-full gap-3">
-                        <label className="font-semibold tracking-wider flex">
-                            <LuAsterisk className="text-red-500 text-[0.8rem]" />
-                            DATE OF BIRTH
-                        </label>
+                </div>
+                <div className="flex flex-col w-full gap-3">
+                    <label className="font-semibold tracking-wider flex">
+                        <LuAsterisk className="text-red-500 text-[0.8rem]" />
+                        DATE OF BIRTH
+                    </label>
+                    <div className="flex flex-col -pt-3">
+                        <label className="pl-2 italic text-gray-600">Month/Day/Year</label>
                         <input
                             type="date"
+                            data-date-format="MM DD YYYY"
                             name="Birthday"
                             onChange={handleChange}
                             value={memberForm.Birthday}
+                            max={new Date().toISOString().split("T")[0]} // Limit to today's date
                             className="text-white border-[0.5px] bg-transparent p-2 rounded w-full max-w-2xl uppercase"
                         />
                     </div>
+                </div>
 
-                    <div className="flex flex-col w-full gap-3">
-                        <label className="font-semibold tracking-wider flex">
-                            <LuAsterisk className="text-red-500 text-[0.8rem]" />
-                            AGE
-                        </label>
-                        <label className="text-white border-[0.5px] bg-transparent p-2 w-[60px] h-[40px] rounded">
-                            {memberForm.Birthday !== "" && AgeComputation(memberForm.Birthday)}
-                        </label>
-                    </div>
+                <div className="flex flex-col w-full gap-3">
+                    <label className="font-semibold tracking-wider flex">
+                        <LuAsterisk className="text-red-500 text-[0.8rem]" />
+                        AGE
+                    </label>
+                    <label className="text-white border-[0.5px] bg-transparent p-2 w-[60px] h-[40px] rounded">
+                        {memberForm.Birthday !== "" && AgeComputation(memberForm.Birthday)}
+                    </label>
+                </div>
 
-                    <div className="flex flex-col w-full gap-3">
-                        <label className="font-semibold tracking-wider flex">
-                            <LuAsterisk className="text-red-500 text-[0.8rem]" />
-                            GENDER
-                        </label>
-                        <Select
-                            name="Gender"
-                            value={memberForm.Gender}
-                            onValueChange={(value) =>
-                                setMemberForm((prev: any) => ({ ...prev, Gender: value }))
-                            }
-                        >
-                            <SelectTrigger className="w-[180px] k rounded">
-                                <SelectValue placeholder="Choose Gender" />
-                            </SelectTrigger>
-                            <SelectContent className=" ">
-                                <SelectItem value="male">Male</SelectItem>
-                                <SelectItem value="female">Female</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+                <div className="flex flex-col w-full gap-3">
+                    <label className="font-semibold tracking-wider flex">
+                        <LuAsterisk className="text-red-500 text-[0.8rem]" />
+                        GENDER
+                    </label>
+                    <Select
+                        name="Gender"
+                        value={memberForm.Gender}
+                        onValueChange={(value) =>
+                            setMemberForm((prev: any) => ({ ...prev, Gender: value }))
+                        }
+                    >
+                        <SelectTrigger className="w-[180px] k rounded">
+                            <SelectValue placeholder="Choose Gender" />
+                        </SelectTrigger>
+                        <SelectContent className=" ">
+                            <SelectItem value="male">Male</SelectItem>
+                            <SelectItem value="female">Female</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
 
-                    <div className="flex flex-col w-full gap-3">
-                        <label className="font-semibold tracking-wider flex">
-                            <LuAsterisk className="text-red-500 text-[0.8rem]" />
-                            CIVIL STATUS
-                        </label>
-                        <Select
-                            name="civilstatus"
-                            value={memberForm.CivilStatus}
-                            onValueChange={(value) =>
+                <div className="flex flex-col w-full gap-3">
+                    <label className="font-semibold tracking-wider flex">
+                        <LuAsterisk className="text-red-500 text-[0.8rem]" />
+                        CIVIL STATUS
+                    </label>
+                    <Select
+                        name="civilstatus"
+                        value={memberForm.CivilStatus}
+                        onValueChange={(value) =>
+                            setMemberForm((prev: any) => ({
+                                ...prev,
+                                CivilStatus: value,
+                            }))
+                        }
+                    >
+                        <SelectTrigger className="w-[180px]  rounded">
+                            <SelectValue placeholder="Choose Civil Status" />
+                        </SelectTrigger>
+                        <SelectContent className=" ">
+                            <SelectItem value="Single">Single</SelectItem>
+                            <SelectItem value="Married">Married</SelectItem>
+                            <SelectItem value="Li">LI</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <div className="flex flex-col w-full gap-3">
+                    <label className="font-semibold tracking-wider">OCCUPATION</label>
+                    <Select
+                        name="Occupation"
+                        value={memberForm.Occupation?.value}
+                        onValueChange={(value) =>
+                            setMemberForm((prev: any) => ({
+                                ...prev,
+                                Occupation: { ...prev.Occupation, value }, // Correctly update only the value
+                            }))
+                        }
+                    >
+                        <SelectTrigger className="w-[180px] rounded">
+                            <SelectValue placeholder="Choose Occupation" />
+                        </SelectTrigger>
+                        <SelectContent className=" ">
+                            <SelectItem value="GE">{"(GE)"} Government Employee</SelectItem>
+                            <SelectItem value="PE">{"(PE)"} Private Employee</SelectItem>
+                            <SelectItem value="OFW">{"(OFW)"} On For Way</SelectItem>
+                            <SelectItem value="OTHER">OTHER</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    {memberForm.Occupation?.value === "OTHER" && (
+                        <input
+                            type="text"
+                            name="other"
+                            placeholder="Enter custom occupation"
+                            value={memberForm.Occupation.other}
+                            onChange={(e) =>
                                 setMemberForm((prev: any) => ({
                                     ...prev,
-                                    CivilStatus: value,
+                                    Occupation: { ...prev.Occupation, other: e.target.value }, // Correctly update only the other field
                                 }))
                             }
-                        >
-                            <SelectTrigger className="w-[180px]  rounded">
-                                <SelectValue placeholder="Choose Civil Status" />
-                            </SelectTrigger>
-                            <SelectContent className=" ">
-                                <SelectItem value="Single">Single</SelectItem>
-                                <SelectItem value="Married">Married</SelectItem>
-                                <SelectItem value="Li">LI</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
-
-                    <div className="flex flex-col w-full gap-3">
-                        <label className="font-semibold tracking-wider">OCCUPATION</label>
-                        <Select
-                            name="Occupation"
-                            value={memberForm.Occupation?.value}
-                            onValueChange={(value) =>
-                                setMemberForm((prev: any) => ({
-                                    ...prev,
-                                    Occupation: { ...prev.Occupation, value }, // Correctly update only the value
-                                }))
-                            }
-                        >
-                            <SelectTrigger className="w-[180px] rounded">
-                                <SelectValue placeholder="Choose Occupation" />
-                            </SelectTrigger>
-                            <SelectContent className=" ">
-                                <SelectItem value="GE">{"(GE)"} Government Employee</SelectItem>
-                                <SelectItem value="PE">{"(PE)"} Private Employee</SelectItem>
-                                <SelectItem value="OFW">{"(OFW)"} On For Way</SelectItem>
-                                <SelectItem value="OTHER">OTHER</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        {memberForm.Occupation?.value === "OTHER" && (
-                            <input
-                                type="text"
-                                name="other"
-                                placeholder="Enter custom occupation"
-                                value={memberForm.Occupation.other}
-                                onChange={(e) =>
-                                    setMemberForm((prev: any) => ({
-                                        ...prev,
-                                        Occupation: { ...prev.Occupation, other: e.target.value }, // Correctly update only the other field
-                                    }))
-                                }
-                                className="p-2.5 rounded"
-                            />
-                        )}
-                    </div>
-
+                            className="p-2.5 rounded"
+                        />
+                    )}
                 </div>
             </div>
         </>

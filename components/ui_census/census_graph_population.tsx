@@ -38,7 +38,9 @@ const CensusGraphPopulation = () => {
 
     const [chartData, setChartData] = useState<any>([
         { kilometer: "37", population: 0, fill: "#4285F4" }, // Blue
-        { kilometer: "38", population: 0, fill: "#FFAC45" }, // Orange
+        { kilometer: "38-A", population: 0, fill: "#FFAC45" }, // Orange
+        { kilometer: "38-B", population: 0, fill: "#e6ff33" }, // Orange
+        { kilometer: "38-POBLACION", population: 0, fill: "#C70039" }, // Orange
         { kilometer: "39", population: 0, fill: "#FF7139" }, // Red
         { kilometer: "40", population: 0, fill: "#0078D7" },   // Dark Blue
         { kilometer: "other", population: 0, fill: "#AAAAAA" },  // Grey
@@ -78,7 +80,7 @@ const CensusGraphPopulation = () => {
         const otherCount = dataDB.reduce((total: number, entry: any) => {
             const isOther = entry.Location.every(
                 (location: any) =>
-                    !["37", "38", "39", "40"].includes(location.Kilometer)
+                    !["37", "38-A", "38-B", "38-POBLACION", "39", "40"].includes(location.Kilometer)
             );
             if (isOther) {
                 return total + parseInt(entry.NumberofMembers || "0", 10);

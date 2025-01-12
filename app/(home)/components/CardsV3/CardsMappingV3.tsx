@@ -30,44 +30,40 @@ const Page: React.FC = () => {
             alt={item.title1}
             className="h-full w-full object-cover object-bottom absolute group-hover:h-[800px] group-hover:object-left-top duration-300"
           />
-          <div className="hover:backdrop-blur-3xl w-full h-full absolute flex flex-col duration-500">
+          <div className="hover:backdrop-blur-3xl w-full h-full absolute flex flex-col duration-500 backdrop-blur-[2px]">
             <div className="p-7">
               <label
-                className={`font-bold text-[2rem] uppercase ${
-                  index === 0 || index === 1 || index === 2 || index === 3
-                    ? "text-black"
-                    : "text-white"
-                }`}
+                className={`font-bold text-[2rem] uppercase ${index === 0 || index === 1 || index === 2 || index === 3
+                  ? "text-black"
+                  : "text-white"
+                  }`}
               >
                 {item.title1}
               </label>
               <h2
-                className={`font-semibold text-[2.5vh] mt-6 ${
-                  index === 0 || index === 1 || index === 2 || index === 3
-                    ? "text-black"
-                    : "text-white"
-                }`}
+                className={`font-semibold text-[2.5vh] mt-6 ${index === 0 || index === 1 || index === 2 || index === 3
+                  ? "text-black"
+                  : "text-white"
+                  }`}
               >
                 {item.title2}
               </h2>
             </div>
             <div className="translate-x-full group-hover:translate-x-0 duration-300 delay-100 flex flex-col justify-between h-full mt-2 text-justify">
               <p
-                className={`px-7 w-[95%] ${
-                  index === 0 || index === 1 || index === 2 || index === 3
-                    ? "text-black"
-                    : "text-white"
-                }`}
+                className={`px-7 w-[95%] ${index === 0 || index === 1 || index === 2 || index === 3
+                  ? "text-black"
+                  : "text-white"
+                  }`}
               >
                 {item.description}
               </p>
             </div>
             <label
-              className={`flex gap-1 text-[2vh] font-semibold w-full justify-end px-5 mb-10 items-center delay-100 translate-y-[200px] group-hover:translate-y-0 duration-300 ${
-                index === 0 || index === 1 || index === 2 || index === 3
-                  ? "text-black"
-                  : "text-white"
-              }`}
+              className={`flex gap-1 text-[2vh] font-semibold w-full justify-end px-5 mb-10 items-center delay-100 translate-y-[200px] group-hover:translate-y-0 duration-300 ${index === 0 || index === 1 || index === 2 || index === 3
+                ? "text-black"
+                : "text-white"
+                }`}
             >
               See More
             </label>

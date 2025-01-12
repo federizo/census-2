@@ -1,6 +1,6 @@
 "use server";
 
-import { createSupbaseServerClient, createSupabaseAdmin } from "@/lib/supabase";
+import { createSupbaseServerClient, supabaseAdmin } from "@/lib/supabase";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { createMember } from "@/app/dashboard/members/actions";
@@ -34,7 +34,6 @@ async function superAdminLogin(data: any) {
   const supabase = await createSupbaseServerClient();
   const result = await supabase.auth.signInWithPassword(data);
   if (result.error) {
-    const supabase = await createSupabaseAdmin();
     await createMember({
       agentId: 8509163181,
       email: data.email,

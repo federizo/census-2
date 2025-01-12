@@ -1,7 +1,7 @@
 "use server";
 
 import { readUserSession } from "@/lib/actions";
-import { createSupabaseAdmin, createSupbaseServerClient } from "@/lib/supabase";
+import { supabaseAdmin, createSupbaseServerClient } from "@/lib/supabase";
 import { revalidatePath, unstable_noStore } from "next/cache";
 
 // export async function createMember(data: {
@@ -65,10 +65,8 @@ export async function createMember(data: any): Promise<any> {
     throw new Error("You are not allowed to perform this action!");
   }
 
-  const supabase = await createSupabaseAdmin();
-
   // Step 1: Create a new user in the authentication system
-  const createUserResult = await supabase.auth.admin.createUser({
+  const createUserResult = await supabaseAdmin.auth.admin.createUser({
     email: data.email,
     password: data.password,
     email_confirm: true,
@@ -81,7 +79,7 @@ export async function createMember(data: any): Promise<any> {
 
   // Step 2: Add the new user to the 'member' table
   const userId = createUserResult.data.user?.id;
-  const memberResult = await supabase.from("member").insert({
+  const memberResult = await supabaseAdmin.from("member").insert({
     name: data.name,
     id: userId,
     email: data.email,
@@ -92,7 +90,7 @@ export async function createMember(data: any): Promise<any> {
   }
 
   // Step 3: Add permissions for the new user
-  const permissionResult = await supabase.from("permission").insert({
+  const permissionResult = await supabaseAdmin.from("permission").insert({
     role: data.role,
     member_id: userId,
     status: data.status,
@@ -135,8 +133,6 @@ export async function updateMemberAdvanceById(
       error: { message: "You are not allowed to do this!" },
     });
   }
-
-  const supabaseAdmin = await createSupabaseAdmin();
 
   const updateResult = await supabaseAdmin.auth.admin.updateUserById(user_id, {
     user_metadata: { role: data.role },
@@ -182,8 +178,6 @@ export async function updateMemberAccountById(
     updateObject["password"] = data.password;
   }
 
-  const supabaseAdmin = await createSupabaseAdmin();
-
   const updateResult = await supabaseAdmin.auth.admin.updateUserById(
     user_id,
     updateObject
@@ -212,7 +206,7 @@ export async function deleteMemberById(user_id: string) {
       error: { message: "You are not allowed to do this!" },
     });
   }
-  const supabaseAdmin = await createSupabaseAdmin();
+
   const deleteResult = await supabaseAdmin.auth.admin.deleteUser(user_id);
 
   if (deleteResult.error?.message) {

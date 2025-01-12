@@ -44,7 +44,7 @@ export default function AuthForm() {
       )) as AuthTokenResponse;
 
       if (error) {
-       
+
         toast({
           title: "Fail to login",
           description: (
@@ -75,7 +75,7 @@ export default function AuthForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="ex. johndoe123@gmail.com" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -89,7 +89,7 @@ export default function AuthForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} type="password" />
+                  <Input placeholder="Enter password..." {...field} type="password" />
                 </FormControl>
                 <FormDescription>
                   {"contact your admin if you forgot your password"}
